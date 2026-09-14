@@ -1,0 +1,519 @@
+<title>Bernards Oefenhoek</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap">
+<style>
+  :root{
+    --navy:#1E2761; --navy2:#2F3C7E; --coral:#F26157; --coralD:#DA463C; --gold:#F5A623;
+    --green:#2E9E6B; --greenL:#E6F6EE; --redL:#FDECEA; --red:#D64C43;
+    --ink:#2A2C3E; --muted:#6C6F86; --bg:#FFF6F0; --card:#FFFFFF; --line:#F0E3DA;
+    --soft:#FDF0E8; --blue:#EEF1FA;
+    --disp:'Fredoka','Segoe UI',system-ui,sans-serif;
+    --body:'Nunito','Segoe UI',system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body)}
+  .wrap{max-width:840px;margin:0 auto;padding:0 16px 80px}
+
+  header{background:var(--navy);color:#fff;border-radius:0 0 28px 28px;padding:22px 24px;position:relative;overflow:hidden;text-align:center}
+  header .blob{position:absolute;border-radius:50%}
+  header .b1{width:150px;height:150px;background:var(--navy2);top:-62px;left:-34px}
+  header .b2{width:105px;height:105px;background:var(--coral);bottom:-48px;right:-24px}
+  header .b3{width:52px;height:52px;background:var(--gold);top:14px;right:38px;opacity:.9}
+  header h1{font-family:var(--disp);margin:2px 0 3px;font-size:34px;font-weight:700}
+  header p{margin:0;color:#C6CBE8;font-size:13.5px;font-weight:700}
+
+  nav.main{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin:18px 0 14px}
+  nav.main button{font-family:var(--body);border:2px solid var(--line);background:var(--card);color:var(--navy);
+    font-weight:800;font-size:14px;padding:10px 14px;border-radius:14px;cursor:pointer;transition:.15s}
+  nav.main button:hover{transform:translateY(-2px)}
+  nav.main button.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+
+  .view{display:none}.view.on{display:block;animation:in .22s ease}
+  @keyframes in{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px 24px;
+    box-shadow:0 8px 26px rgba(30,39,97,.07);margin-bottom:14px}
+  .card h2{font-family:var(--disp);margin:0 0 4px;font-size:24px;color:var(--navy);font-weight:700}
+  .help{background:var(--blue);border:1px solid var(--line);border-radius:12px;padding:11px 15px;
+    color:var(--navy);font-size:14px;font-weight:700;line-height:1.55;margin:0 0 16px}
+  .help b{color:var(--coralD)}
+  .help .en{color:var(--muted);font-style:italic;font-weight:700}
+
+  .chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:0 0 14px}
+  .chips button{font-family:var(--body);border:2px solid var(--line);background:var(--card);color:var(--navy);
+    font-weight:800;font-size:12.5px;padding:7px 12px;border-radius:18px;cursor:pointer}
+  .chips button.on{background:var(--coral);color:#fff;border-color:var(--coral)}
+
+  /* flashcards */
+  .flash{background:var(--soft);border:2px dashed #F3D9C8;border-radius:20px;min-height:190px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;padding:26px 20px;
+    cursor:pointer;text-align:center;user-select:none}
+  .flash .nl{font-family:var(--disp);font-size:32px;font-weight:600;color:var(--navy);line-height:1.25}
+  .flash .en{font-family:var(--disp);font-size:27px;font-weight:600;color:var(--coralD);line-height:1.3}
+  .flash .tap{margin-top:14px;color:var(--muted);font-size:13px;font-weight:800}
+  .pop{animation:pp .3s cubic-bezier(.2,1.4,.4,1)}
+  @keyframes pp{0%{transform:scale(.82);opacity:.35}100%{transform:scale(1);opacity:1}}
+
+  .row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:14px}
+  .btn{font-family:var(--body);border:none;border-radius:14px;font-weight:800;font-size:16px;padding:13px 20px;cursor:pointer}
+  .btn:active{transform:translateY(2px)}
+  .btn-primary{background:var(--coral);color:#fff;box-shadow:0 5px 0 var(--coralD)}
+  .btn-primary:active{box-shadow:0 1px 0 var(--coralD)}
+  .btn-ghost{background:#fff;color:var(--navy);border:2px solid var(--line)}
+  .counter{text-align:center;color:var(--muted);font-weight:800;font-size:13px;margin-top:12px}
+
+  /* conjugation */
+  .conj{background:var(--soft);border:2px dashed #F3D9C8;border-radius:20px;padding:24px 20px;text-align:center}
+  .conj .inf{font-family:var(--disp);font-size:30px;font-weight:600;color:var(--navy)}
+  .conj .mean{color:var(--muted);font-weight:800;font-size:14px;margin-top:4px}
+  .conj .forms{margin-top:16px;display:none}
+  .conj .forms.on{display:block;animation:pp .3s cubic-bezier(.2,1.4,.4,1)}
+  .conj .frow{font-size:19px;font-weight:800;color:var(--navy);margin:6px 0}
+  .conj .frow span.lbl{color:var(--muted);font-size:13px;font-weight:800;display:block}
+  .conj .frow b{color:var(--coralD)}
+  .tag{display:inline-block;background:var(--navy);color:#fff;border-radius:14px;padding:4px 11px;font-size:12.5px;font-weight:800;margin-top:8px}
+
+  /* quiz */
+  .qtext{font-family:var(--disp);font-size:23px;font-weight:600;color:var(--navy);line-height:1.35;margin-bottom:16px;text-align:center}
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opts button{font-family:var(--body);text-align:left;border:2px solid var(--line);background:var(--card);
+    color:var(--ink);font-weight:800;font-size:16.5px;padding:14px 18px;border-radius:14px;cursor:pointer;transition:.12s}
+  .opts button:hover:not(:disabled){border-color:var(--coral)}
+  .opts button:disabled{cursor:default}
+  .opts button.good{background:var(--greenL);border-color:var(--green);color:#1d6b49}
+  .opts button.bad{background:var(--redL);border-color:var(--red);color:#a8362e}
+  .fb{margin-top:14px;border-radius:14px;padding:13px 16px;font-weight:700;font-size:15px;line-height:1.55;display:none}
+  .fb.on{display:block;animation:pp .28s ease}
+  .fb.good{background:var(--greenL);color:#1d6b49}
+  .fb.bad{background:var(--redL);color:#a8362e}
+  .fb .en{display:block;margin-top:5px;font-style:italic;opacity:.9}
+  .score{text-align:center;font-weight:800;color:var(--muted);font-size:14px;margin-top:12px}
+
+  /* text */
+  .text{background:var(--blue);border:1px solid var(--line);border-radius:16px;padding:18px 20px;
+    font-size:17px;line-height:1.95;font-weight:600}
+  .text p{margin:0 0 12px}.text p:last-child{margin:0}
+  .text b{color:var(--coralD)}
+
+  .wordgrid{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 2px}
+  .wordgrid span{background:var(--blue);border:1px solid var(--line);border-radius:16px;padding:6px 12px;
+    font-weight:800;font-size:13.5px;color:var(--navy)}
+  .wordgrid span i{color:var(--muted);font-weight:700;font-style:normal}
+  .card h3{font-family:var(--disp);margin:16px 0 6px;font-size:17px;color:var(--coralD);font-weight:600}
+
+  @media(max-width:560px){header h1{font-size:28px}.card{padding:18px}.flash .nl{font-size:26px}.flash .en{font-size:22px}.qtext{font-size:19px}.opts button{font-size:15px}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+    <h1>Bernards Oefenhoek 💪</h1>
+    <p>Nederlands oefenen — wanneer jij wilt</p>
+  </header>
+
+  <nav class="main" id="mainnav"></nav>
+
+  <!-- 0 FLASHCARDS -->
+  <div class="view on" id="v0">
+    <div class="card">
+      <h2>🃏 Flashcards</h2>
+      <div class="help">Klik op de kaart om het antwoord te zien. <span class="en">Click the card to flip it. Pick a deck below, then use “Volgende”. Try to say the Dutch word out loud before you flip!</span></div>
+      <div class="chips" id="deckchips"></div>
+      <div class="flash" id="flash" onclick="flip()">
+        <div class="nl" id="fNl">Klik op “Start” 👇</div>
+        <div class="tap" id="fTap"></div>
+      </div>
+      <div class="row">
+        <button class="btn btn-ghost" onclick="shuffleDeck()">🔀 Schudden</button>
+        <button class="btn btn-primary" onclick="nextCard()">Volgende →</button>
+      </div>
+      <div class="counter" id="fCount"></div>
+    </div>
+  </div>
+
+  <!-- 1 VERVOEGEN -->
+  <div class="view" id="v1">
+    <div class="card">
+      <h2>✍️ Vervoegen</h2>
+      <div class="help">Zeg de verleden tijd en het voltooid deelwoord hardop. Klik daarna op “Antwoord”.
+        <span class="en">Say the past tense and the past participle out loud, then check. “h” = uses <b>hebben</b>, “z” = uses <b>zijn</b>.</span></div>
+      <div class="conj">
+        <div class="inf" id="cInf">Klik op “Volgende” 👇</div>
+        <div class="mean" id="cMean"></div>
+        <div class="forms" id="cForms">
+          <div class="frow"><span class="lbl">verleden tijd (past)</span><b id="cVt"></b></div>
+          <div class="frow"><span class="lbl">voltooid deelwoord (participle)</span><b id="cVd"></b></div>
+          <div class="tag" id="cAux"></div>
+        </div>
+      </div>
+      <div class="row">
+        <button class="btn btn-ghost" onclick="showConj()">👀 Antwoord</button>
+        <button class="btn btn-primary" onclick="nextConj()">Volgende →</button>
+      </div>
+      <div class="counter" id="cCount"></div>
+    </div>
+  </div>
+
+  <!-- 2 QUIZ -->
+  <div class="view" id="v2">
+    <div class="card">
+      <h2>🧩 Quiz</h2>
+      <div class="help">Kies het goede antwoord. Je ziet meteen of het goed is, met uitleg.
+        <span class="en">Choose the right answer — you get instant feedback and a short explanation in English.</span></div>
+      <div class="qtext" id="qText">Klik op “Start quiz” 👇</div>
+      <div class="opts" id="qOpts"></div>
+      <div class="fb" id="qFb"></div>
+      <div class="row"><button class="btn btn-primary" id="qBtn" onclick="nextQuiz()">Start quiz →</button></div>
+      <div class="score" id="qScore"></div>
+    </div>
+  </div>
+
+  <!-- 3 PRATEN -->
+  <div class="view" id="v3">
+    <div class="card">
+      <h2>🗣️ Hardop praten</h2>
+      <div class="help">Klik op de knop en geef hardop antwoord — in hele zinnen.
+        <span class="en">Practise speaking alone: answer out loud in full sentences. Tip: record yourself on your phone and listen back. Or answer while walking around — it works!</span></div>
+      <div class="chips" id="spchips"></div>
+      <div class="flash" style="cursor:default">
+        <div class="nl" id="spText" style="font-size:27px">Klik op de knop 👇</div>
+      </div>
+      <div class="row"><button class="btn btn-primary" onclick="nextSpeak()">Nieuwe opdracht →</button></div>
+    </div>
+  </div>
+
+  <!-- 4 LEZEN -->
+  <div class="view" id="v4">
+    <div class="card">
+      <h2>📖 Lezen — jouw eigen zinnen</h2>
+      <div class="help">Dit zijn jouw eigen zinnen, netjes gemaakt. Lees ze hardop.
+        <span class="en">These are your own sentences, tidied up. Read them out loud — it's great practice.</span></div>
+      <h3>Wat ik op een dag eet</h3>
+      <div class="text">
+        <p>Voor het ontbijt eet ik één of twee <b>kommen</b> ontbijtgranen. <b>Daarna</b> eet ik één of twee <b>bammetjes</b> met Nutella. Als snack eet ik nog een Nutella-bammetje.</p>
+        <p>Voor de lunch eet ik een bammetje met Nutella en een bam met <b>kaas</b> en vlees, en een Griekse yoghurt. <b>Daarna</b> heb ik mijn tweede snack: nog een Griekse yoghurt met een appel. Soms eet ik <b>na</b> school ook een appel.</p>
+        <p>Dan heb ik mijn avondeten. <b>Na</b> het avondeten eet ik een chocolade<b>toetje</b> en Haribo, en soms ijs. <b>Heerlijk!</b></p>
+      </div>
+      <h3>Mijn weekend</h3>
+      <div class="text">
+        <p>Op vrijdag <b>ben</b> ik naar school <b>gegaan</b>. <b>Daarna</b> ging ik naar huis en <b>deed</b> ik mijn huiswerk. 's Avonds at ik mijn avondeten en keek ik een film.</p>
+        <p>Op zaterdag ben ik naar mijn oude huis gegaan, want ik <b>moest</b> mijn <b>voortuin schoonmaken</b>. <b>Weet je?</b> Ik weet niet of ik de film heb gekeken!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5 WOORDEN -->
+  <div class="view" id="v5">
+    <div class="card">
+      <h2>📚 Alle woorden</h2>
+      <div class="help">Alle woorden van de lessen, met Engels erbij. <span class="en">All your words with English translations.</span></div>
+      <div id="wordlist"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================= data ================= */
+var DECKS = {
+  "Nieuw ⭐":[
+    ["slopen","to wreck / demolish"],["het been","the leg"],["de baan","the job"],["het werk","the work"],
+    ["de werkdag","the workday"],["de werkweek","the work week"],["het deel","the part"],["het stuk","the piece"],
+    ["het weer","the weather"],["schoonmaken","to clean"],["de tuin","the garden"],["de voortuin","the front garden"],
+    ["heerlijk","delicious / lovely"],["Weet je?","You know?"],["de kom","the bowl"],["de bam","the sandwich (slang)"],
+    ["daarna","afterwards"],["na","after"],["het toetje","the dessert"],["het voorbeeld","the example"],
+    ["splitsen","to split"],["het begin","the beginning"],["het einde","the end"],["voor","in front of / before"],
+    ["achter","behind"],["de worst","the sausage"],["de oom","the uncle"],["brutaal","cheeky / rude"],
+    ["braaf","well-behaved"],["uitleggen","to explain"],["allemaal","all of them"],["sinds","since"],
+    ["de graad","the grade / degree"],["de brug","the bridge"],["de brugklas","first year of secondary school"],
+    ["goeiemiddag","good afternoon (informal)"],["jeetje","gosh / jeez"],["goeie / goede","good"],
+    ["het bijvoeglijk naamwoord","the adjective"],["het zelfstandig naamwoord","the noun"]
+  ],
+  "Splitsbaar":[
+    ["opstaan","to get up"],["opbellen","to call (phone)"],["afspreken","to arrange to meet"],["meenemen","to bring along"],
+    ["uitgaan","to go out"],["opruimen","to tidy up"],["thuiskomen","to come home"],["aankomen","to arrive"],["meegaan","to come along"]
+  ],
+  "Reflexief":[
+    ["zich wassen","to wash yourself"],["zich aankleden","to get dressed"],["zich haasten","to hurry"],
+    ["zich voelen","to feel"],["zich vervelen","to be bored"],["zich schamen","to be embarrassed"],["zich vergissen","to make a mistake"]
+  ],
+  "Werkwoorden":[
+    ["gaan","to go"],["komen","to come"],["eten","to eat"],["drinken","to drink"],["zien","to see"],["kijken","to watch"],
+    ["doen","to do"],["staan","to stand"],["rijden","to drive / ride"],["zwemmen","to swim"],["moeten","must / to have to"],
+    ["nemen","to take"],["schrijven","to write"],["beschrijven","to describe"],["lachen","to laugh"],["pakken","to grab"],
+    ["gooien","to throw"],["halen","to fetch"],["gamen","to game"],["voelen","to feel"],["haten","to hate"],
+    ["organiseren","to organise"],["hosten","to host"],["vergelijken","to compare"],["pijn doen","to hurt"]
+  ],
+  "Dingen":[
+    ["de kaas","the cheese"],["het gehakt","the minced meat"],["rundvlees","beef"],["de ui","the onion"],
+    ["het ijsje","the ice cream"],["de lepel","the spoon"],["de steen","the stone"],["de vlag","the flag"],
+    ["de tas","the bag"],["het potlood","the pencil"],["de koning","the king"],["het kantoor","the office"],
+    ["de collega","the colleague"],["de kamer","the room"],["de golfbaan","the golf course"],["de beker","the cup / trophy"],
+    ["de bal","the ball"],["de kat","the cat"],["de reden","the reason"],["de ochtend","the morning"]
+  ],
+  "Bijvoeglijk":[
+    ["groot / klein","big / small"],["sterk / zwak","strong / weak"],["snel / langzaam","fast / slow"],
+    ["duur / goedkoop","expensive / cheap"],["leuk / saai","fun / boring"],["warm / koud","warm / cold"],
+    ["nat / droog","wet / dry"],["lang / kort","long / short"],["nieuw / oud","new / old"],
+    ["goed – beter – best","good – better – best"],["mooi","beautiful"],["grappig","funny"],["slim","clever"],
+    ["dom","stupid"],["stom","silly / annoying"],["verdrietig","sad"],["lekker","tasty"]
+  ],
+  "Handig":[
+    ["volgens mij","I think / in my opinion"],["recentelijk","recently"],["bijna","almost"],["zonder","without"],
+    ["dichtbij","nearby"],["veel","much / many"],["heel","very"],["vaak","often"],["liever","rather"],
+    ["het liefst","most of all"],["omdat","because (verb to the end)"],["want","because (normal order)"],
+    ["dan","than"],["niets","nothing"],["een van de beste","one of the best"],["het ermee eens zijn","to agree"]
+  ]
+};
+
+var CONJ=[
+  ["gaan","to go","ging","gegaan","zijn"],
+  ["komen","to come","kwam","gekomen","zijn"],
+  ["eten","to eat","at","gegeten","hebben"],
+  ["drinken","to drink","dronk","gedronken","hebben"],
+  ["zien","to see","zag","gezien","hebben"],
+  ["kijken","to watch","keek","gekeken","hebben"],
+  ["doen","to do","deed","gedaan","hebben"],
+  ["staan","to stand","stond","gestaan","zijn"],
+  ["rijden","to drive / ride","reed","gereden","zijn / hebben"],
+  ["zwemmen","to swim","zwom","gezwommen","hebben"],
+  ["moeten","must","moest","gemoeten","hebben"],
+  ["nemen","to take","nam","genomen","hebben"],
+  ["schrijven","to write","schreef","geschreven","hebben"],
+  ["lachen","to laugh","lachte","gelachen","hebben"],
+  ["zijn","to be","was","geweest","zijn"],
+  ["hebben","to have","had","gehad","hebben"],
+  ["opstaan","to get up","stond op","opgestaan","zijn"],
+  ["opbellen","to call","belde op","opgebeld","hebben"],
+  ["zich wassen","to wash yourself","waste zich","gewassen","hebben"],
+  ["zich vergissen","to be mistaken","vergiste zich","vergist","hebben"]
+];
+
+var QUIZ=[
+  {q:"Kies de goede zin.",o:["Ik sta om 7 uur op.","Ik opsta om 7 uur.","Ik sta op om 7 uur."],c:0,
+   e:"Separable verbs split: the verb comes second, and the prefix (op) goes to the very end."},
+  {q:"Ik ______ mijn moeder opgebeld.",o:["heb","ben"],c:0,
+   e:"Most verbs use hebben. Only movement or change verbs use zijn."},
+  {q:"Ik ______ naar school gegaan.",o:["ben","heb"],c:0,
+   e:"gaan is movement, so it takes zijn: ik ben gegaan."},
+  {q:"Wat is het voltooid deelwoord van “opstaan”?",o:["opgestaan","geopstaan","opstaangeweest"],c:0,
+   e:"With separable verbs, ge goes in the MIDDLE: op-ge-staan."},
+  {q:"Ik voel ______ vandaag goed.",o:["me","zich","je"],c:0,
+   e:"ik → me. (jij → je, hij/zij → zich, wij → ons)"},
+  {q:"Mijn broer haast ______.",o:["zich","hem","je"],c:0,
+   e:"hij / zij / zij (plural) → zich."},
+  {q:"Kies de goede zin.",o:["Ik kleed me snel aan.","Ik kleed aan me snel.","Ik aankleed me snel."],c:0,
+   e:"The reflexive word comes right after the verb, and the prefix aan still goes to the end."},
+  {q:"Ik ______ me gewassen.",o:["heb","ben"],c:0,
+   e:"Reflexive verbs ALWAYS use hebben in the perfect tense."},
+  {q:"Een auto is ______ dan een fiets.",o:["sneller","snelst","snel"],c:0,
+   e:"Comparative = adjective + er, followed by dan."},
+  {q:"Wat is de overtreffende trap van “goed”?",o:["best","goedst","meest goed"],c:0,
+   e:"Irregular: goed – beter – best. Learn it by heart."},
+  {q:"duur → ?",o:["duurder","duurer","durer"],c:0,
+   e:"Words ending in -r add -der: duur → duurder, lekker → lekkerder."},
+  {q:"Kies de goede zin met “omdat”.",o:["Ik ben blij omdat het weekend is.","Ik ben blij omdat is het weekend."],c:0,
+   e:"After omdat the verb moves to the END of that part of the sentence."},
+  {q:"Ik eet, ______ ik heb honger.",o:["want","omdat"],c:0,
+   e:"want keeps normal word order. With omdat you would say: omdat ik honger heb."},
+  {q:"Gisteren ______ ik thuis.",o:["was","waren","ben"],c:0,
+   e:"Past tense of zijn: ik/jij/hij was — wij/jullie/zij waren."},
+  {q:"Wij ______ heel moe. (verleden tijd)",o:["waren","was","zijn"],c:0,
+   e:"Plural past of zijn is waren."},
+  {q:"Verleden tijd van “rijden”?",o:["reed","rijdde","gereden"],c:0,
+   e:"rijden – reed – gereden. gereden is the participle, not the past tense."},
+  {q:"Voltooid deelwoord van “zwemmen”?",o:["gezwommen","gezwemd","zwom"],c:0,
+   e:"zwemmen – zwom – gezwommen, and it uses hebben: ik heb gezwommen."},
+  {q:"Verleden tijd van “moeten”?",o:["moest","moette","gemoeten"],c:0,
+   e:"moeten – moest – gemoeten. Example: ik moest mijn tuin schoonmaken."},
+  {q:"Verleden tijd van “staan”?",o:["stond","staande","gestaan"],c:0,
+   e:"staan – stond – gestaan."},
+  {q:"Ik heb me ______. (zich vergissen)",o:["vergist","gevergist","vergissen"],c:0,
+   e:"Verbs starting with ver-, be- or ge- do NOT get an extra ge-: vergist, beschreven."},
+  {q:"Op zaterdag moest ik mijn voortuin ______.",o:["schoonmaken","schoongemaakt","schoonmaakte"],c:0,
+   e:"After a verb like moeten you use the infinitive: ik moest ... schoonmaken."},
+  {q:"Wat is “het toetje” in het Engels?",o:["the dessert","the bowl","the sandwich"],c:0,
+   e:"het toetje = the dessert. de kom = the bowl, de bam = the sandwich (slang)."}
+];
+
+var SPEAK={
+  "Over jou":[
+    "Vertel wat je vanmorgen hebt gedaan. Gebruik 3 zinnen.",
+    "Hoe voel je je vandaag? Zeg waarom, met “omdat”.",
+    "Wat heb je gisteren gegeten? Vertel alles!",
+    "Beschrijf je kamer in 3 zinnen.",
+    "Wat doe je na school? Vertel het in de voltooide tijd.",
+    "Hoe laat sta je op? En hoe laat kom je thuis?",
+    "Vertel over je weekend. Gebruik “daarna” en “na”.",
+    "Wat moest je deze week doen? Gebruik “ik moest…”."
+  ],
+  "Vergelijken":[
+    "Wat is beter: de zomer of de winter? Leg uit met “omdat”.",
+    "Vergelijk je telefoon met een boek. Wat is leuker?",
+    "Wat is het lekkerste eten van de wereld? Waarom?",
+    "Wie is sterker: jij of je vriend? En wie is sneller?",
+    "Is gamen leuker dan voetballen? Zeg waarom.",
+    "Wat is duurder: een fiets of een telefoon?"
+  ],
+  "Gek & grappig":[
+    "Vertel over een keer dat je je vergiste. Wat gebeurde er?",
+    "Je bent één dag de baas van school. Wat verander je?",
+    "Verzin een verhaal: “Gisteren ben ik naar de tuin gegaan en toen…”",
+    "Beschrijf een worst zonder het woord “worst” te zeggen.",
+    "Wat zou je doen met 100 euro? Zeg 3 dingen.",
+    "Vertel over je oom (of verzin een gekke oom!)."
+  ],
+  "Woorden oefenen":[
+    "Maak een zin met: de voortuin + schoonmaken.",
+    "Maak een zin met: zich haasten + omdat.",
+    "Maak een zin met: het toetje + heerlijk.",
+    "Maak een zin met: de brug + rijden (verleden tijd).",
+    "Maak een zin met: brutaal + braaf.",
+    "Maak een zin met: het begin + het einde.",
+    "Maak een zin met: allemaal + sinds.",
+    "Leg uit wat “weet je?” betekent, in het Nederlands."
+  ]
+};
+
+/* ================= nav ================= */
+var MAIN=["🃏 Flashcards","✍️ Vervoegen","🧩 Quiz","🗣️ Praten","📖 Lezen","📚 Woorden"];
+var mn=document.getElementById('mainnav');
+MAIN.forEach(function(t,i){
+  var b=document.createElement('button');b.textContent=t;if(i===0)b.className='active';
+  b.onclick=function(){showView(i,b)};mn.appendChild(b);
+});
+function showView(i,btn){
+  for(var k=0;k<MAIN.length;k++)document.getElementById('v'+k).classList.remove('on');
+  document.getElementById('v'+i).classList.add('on');
+  mn.querySelectorAll('button').forEach(function(x){x.classList.remove('active')});
+  btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function pop(el){el.classList.remove('pop');void el.offsetWidth;el.classList.add('pop');}
+
+/* ================= flashcards ================= */
+var deckNames=Object.keys(DECKS), curDeck=deckNames[0], order=[], idx=-1, flipped=false;
+var dc=document.getElementById('deckchips');
+deckNames.forEach(function(n,i){
+  var b=document.createElement('button');b.textContent=n;if(i===0)b.className='on';
+  b.onclick=function(){
+    curDeck=n;dc.querySelectorAll('button').forEach(function(x){x.classList.remove('on')});
+    b.classList.add('on');buildOrder();nextCard();
+  };
+  dc.appendChild(b);
+});
+function buildOrder(){order=DECKS[curDeck].map(function(_,i){return i;});idx=-1;}
+buildOrder();
+function shuffleDeck(){
+  for(var i=order.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=order[i];order[i]=order[j];order[j]=t;}
+  idx=-1;nextCard();
+}
+function nextCard(){
+  if(order.length===0)return;
+  idx=(idx+1)%order.length;flipped=false;render();
+}
+function flip(){if(idx<0)return;flipped=!flipped;render();}
+function render(){
+  var pair=DECKS[curDeck][order[idx]];
+  var nl=document.getElementById('fNl');
+  if(flipped){nl.className='en';nl.textContent=pair[1];document.getElementById('fTap').textContent='klik voor Nederlands';}
+  else{nl.className='nl';nl.textContent=pair[0];document.getElementById('fTap').textContent='klik voor Engels';}
+  pop(nl);
+  document.getElementById('fCount').textContent=(idx+1)+' / '+order.length+'  ·  '+curDeck;
+}
+
+/* ================= conjugation ================= */
+var cOrder=CONJ.map(function(_,i){return i;}), cIdx=-1;
+function nextConj(){
+  cIdx=(cIdx+1)%cOrder.length;
+  var v=CONJ[cOrder[cIdx]];
+  document.getElementById('cInf').textContent=v[0];
+  document.getElementById('cMean').textContent=v[1];
+  document.getElementById('cVt').textContent='';
+  document.getElementById('cVd').textContent='';
+  document.getElementById('cAux').textContent='';
+  document.getElementById('cForms').classList.remove('on');
+  document.getElementById('cCount').textContent=(cIdx+1)+' / '+CONJ.length;
+  pop(document.getElementById('cInf'));
+}
+function showConj(){
+  if(cIdx<0){nextConj();}
+  var v=CONJ[cOrder[cIdx]];
+  document.getElementById('cVt').textContent=v[2];
+  document.getElementById('cVd').textContent=v[3];
+  document.getElementById('cAux').textContent='met '+v[4];
+  document.getElementById('cForms').classList.add('on');
+}
+
+/* ================= quiz ================= */
+var qOrder=[], qIdx=-1, qScore=0, qDone=0, qAnswered=true;
+function shuffleQ(){
+  qOrder=QUIZ.map(function(_,i){return i;});
+  for(var i=qOrder.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=qOrder[i];qOrder[i]=qOrder[j];qOrder[j]=t;}
+}
+shuffleQ();
+function nextQuiz(){
+  if(!qAnswered)return;
+  qIdx++;
+  if(qIdx>=qOrder.length){qIdx=0;shuffleQ();qScore=0;qDone=0;}
+  var item=QUIZ[qOrder[qIdx]];
+  document.getElementById('qText').textContent=item.q;
+  var box=document.getElementById('qOpts');box.innerHTML='';
+  var picks=item.o.map(function(txt,i){return {txt:txt,ok:i===item.c};});
+  for(var i=picks.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=picks[i];picks[i]=picks[j];picks[j]=t;}
+  picks.forEach(function(pk){
+    var b=document.createElement('button');b.textContent=pk.txt;
+    b.onclick=function(){answer(b,pk.ok,item.e,box);};
+    box.appendChild(b);
+  });
+  document.getElementById('qFb').className='fb';
+  document.getElementById('qBtn').textContent='Volgende →';
+  qAnswered=false;
+  pop(document.getElementById('qText'));
+}
+function answer(btn,ok,expl,box){
+  if(qAnswered)return;
+  qAnswered=true;qDone++;
+  if(ok)qScore++;
+  box.querySelectorAll('button').forEach(function(b){b.disabled=true;});
+  btn.classList.add(ok?'good':'bad');
+  if(!ok){
+    var item=QUIZ[qOrder[qIdx]];
+    box.querySelectorAll('button').forEach(function(b){if(b.textContent===item.o[item.c])b.classList.add('good');});
+  }
+  var fb=document.getElementById('qFb');
+  fb.className='fb on '+(ok?'good':'bad');
+  fb.innerHTML=(ok?'✅ Goed!':'❌ Bijna!')+'<span class="en">'+expl+'</span>';
+  document.getElementById('qScore').textContent='Score: '+qScore+' / '+qDone;
+}
+
+/* ================= speaking ================= */
+var spNames=Object.keys(SPEAK), curSp=spNames[0];
+var sc=document.getElementById('spchips');
+spNames.forEach(function(n,i){
+  var b=document.createElement('button');b.textContent=n;if(i===0)b.className='on';
+  b.onclick=function(){curSp=n;sc.querySelectorAll('button').forEach(function(x){x.classList.remove('on')});b.classList.add('on');};
+  sc.appendChild(b);
+});
+function nextSpeak(){
+  var arr=SPEAK[curSp];
+  var i=Math.floor(Math.random()*arr.length);
+  if(arr.length>1&&arr[i]===window._sp)return nextSpeak();
+  window._sp=arr[i];
+  var t=document.getElementById('spText');t.textContent=arr[i];pop(t);
+}
+
+/* ================= word list ================= */
+(function(){
+  var wl=document.getElementById('wordlist'),html='';
+  deckNames.forEach(function(n){
+    html+='<h3>'+n+'</h3><div class="wordgrid">';
+    DECKS[n].forEach(function(p){html+='<span>'+p[0]+' <i>— '+p[1]+'</i></span>';});
+    html+='</div>';
+  });
+  html+='<h3>Sterke werkwoorden (heel · verleden · voltooid)</h3><div class="wordgrid">';
+  CONJ.forEach(function(v){html+='<span>'+v[0]+' – '+v[2]+' – '+v[3]+' <i>('+v[4]+')</i></span>';});
+  html+='</div>';
+  wl.innerHTML=html;
+})();
+</script>
