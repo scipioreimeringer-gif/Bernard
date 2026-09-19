@@ -3,725 +3,492 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bernards Woordkist</title>
+<title>Bernards Werkwoordtoets</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#FFF7F0; --surface:#FFFFFF; --surface2:#FBEEE4; --border:#F0DFD1;
-    --text:#262A3D; --muted:#6C7090;
-    --navy:#1E2761; --navy2:#313E82;
-    --coral:#F0624F; --coralD:#D14A3D;
-    --gold:#F0A63A; --green:#2E9E6B; --red:#D2483D;
-    --shadow: 0 10px 28px -14px rgba(30,39,97,.28);
-    padding-top: env(safe-area-inset-top, 0px);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+    --bg:#FBF6EE; --paper:#F3EADA; --card:#FFFFFF; --cardline:#EAE1D0;
+    --ink:#262A3D; --muted:#6D7086; --navy:#1E2761; --navy2:#2F3C7E;
+    --red:#D6473A; --redD:#B93A2F; --redBg:#FBEAE7;
+    --gold:#E8A13B; --goldBg:#FCF2DF;
+    --green:#2E9E6B; --greenBg:#E8F5EE;
+    --shadow:0 2px 10px rgba(38,42,61,.06);
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg:#14172A; --surface:#1D2040; --surface2:#242849; --border:#34386B;
-      --text:#EEF0FB; --muted:#9BA0C7;
-      --coral:#FF7A68; --coralD:#FF9184; --gold:#FFC069; --green:#3FCB92; --red:#FF8A7D;
-      --shadow: 0 10px 28px -14px rgba(0,0,0,.55);
+      --bg:#14172C; --paper:#191D38; --card:#1E2242; --cardline:#2C3060;
+      --ink:#ECE9F7; --muted:#9DA3C9; --navy:#7C8AEA; --navy2:#5A69C4;
+      --red:#FF7A6B; --redD:#FF9689; --redBg:rgba(255,122,107,.14);
+      --gold:#F5BE6B; --goldBg:rgba(245,190,107,.12);
+      --green:#57D0A0; --greenBg:rgba(87,208,160,.14);
+      --shadow:0 2px 14px rgba(0,0,0,.35);
     }
   }
   :root[data-theme="dark"]{
-    --bg:#14172A; --surface:#1D2040; --surface2:#242849; --border:#34386B;
-    --text:#EEF0FB; --muted:#9BA0C7;
-    --coral:#FF7A68; --coralD:#FF9184; --gold:#FFC069; --green:#3FCB92; --red:#FF8A7D;
-    --shadow: 0 10px 28px -14px rgba(0,0,0,.55);
+    --bg:#14172C; --paper:#191D38; --card:#1E2242; --cardline:#2C3060;
+    --ink:#ECE9F7; --muted:#9DA3C9; --navy:#7C8AEA; --navy2:#5A69C4;
+    --red:#FF7A6B; --redD:#FF9689; --redBg:rgba(255,122,107,.14);
+    --gold:#F5BE6B; --goldBg:rgba(245,190,107,.12);
+    --green:#57D0A0; --greenBg:rgba(87,208,160,.14);
+    --shadow:0 2px 14px rgba(0,0,0,.35);
   }
-  *{box-sizing:border-box;}
-  body{margin:0;background:var(--bg);color:var(--text);font-family:'Nunito',system-ui,sans-serif;}
-  h1,h2,h3,.disp{font-family:'Fredoka',system-ui,sans-serif;}
-  .wrap{max-width:760px;margin:0 auto;padding-inline:20px;}
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:'Nunito',system-ui,sans-serif; padding-inline:0;
+    background-image:repeating-linear-gradient(var(--bg) 0 27px, var(--paper) 27px 28px);
+  }
+  h1,h2,h3,.disp{font-family:'Fredoka',system-ui,sans-serif}
+  .mono{font-family:'Space Mono',ui-monospace,monospace}
+  .wrap{max-width:900px;margin:0 auto;padding:0 18px 60px}
 
-  header.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--navy);color:#fff;}
-  header.bar .inner{max-width:760px;margin:0 auto;padding:16px 20px;}
-  header.bar h1{margin:0 0 2px;font-size:1.5rem;letter-spacing:.2px;}
-  header.bar p{margin:0;color:#C6CBEC;font-size:.88rem;}
+  header.top{
+    position:sticky; top:env(safe-area-inset-top,0px); z-index:20;
+    background:var(--bg); border-bottom:2px solid var(--cardline);
+    padding-top:calc(env(safe-area-inset-top,0px) + 14px);
+  }
+  .titlebar{max-width:900px;margin:0 auto;padding:0 18px 12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .boat{font-size:30px;line-height:1}
+  .titlebar h1{margin:0;font-size:22px;color:var(--navy);font-weight:700}
+  .titlebar p{margin:2px 0 0;font-size:13px;color:var(--muted)}
+  .tabs{max-width:900px;margin:0 auto;padding:0 18px;display:flex;gap:8px;overflow-x:auto}
+  .tab{
+    font-family:'Fredoka',sans-serif; font-weight:600; font-size:14.5px;
+    border:2px solid var(--cardline); background:var(--card); color:var(--muted);
+    padding:9px 16px; border-radius:12px 12px 0 0; cursor:pointer; white-space:nowrap;
+    border-bottom:none; transform:translateY(2px);
+  }
+  .tab[aria-selected="true"]{color:var(--red); background:var(--bg); border-color:var(--red); transform:translateY(2px)}
+  .tab:focus-visible{outline:3px solid var(--gold); outline-offset:2px}
 
-  nav.tabs{display:flex;gap:8px;max-width:760px;margin:14px auto 0;padding-inline:20px;}
-  nav.tabs button{flex:1;font-family:'Fredoka',sans-serif;font-weight:600;font-size:.95rem;
-    background:var(--surface);color:var(--muted);border:2px solid var(--border);border-radius:14px;
-    padding:11px 10px;cursor:pointer;transition:.15s;}
-  nav.tabs button.active{background:var(--coral);border-color:var(--coral);color:#fff;}
-  nav.tabs button:hover:not(.active){border-color:var(--coral);color:var(--coralD);}
+  section.panel{padding-top:22px}
+  [hidden]{display:none!important}
 
-  main{padding-block:22px 48px;}
-  [hidden]{display:none!important;}
+  .lead{color:var(--muted);font-size:15px;max-width:62ch;margin:0 0 20px}
 
-  .panel{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:22px;box-shadow:var(--shadow);}
-  .panel + .panel{margin-top:16px;}
+  /* Uitleg cards */
+  .rules{display:grid; gap:16px}
+  .rule{background:var(--card); border:1px solid var(--cardline); border-radius:16px; padding:18px 20px; box-shadow:var(--shadow)}
+  .rule h2{margin:0 0 4px; font-size:19px; color:var(--navy)}
+  .rule .sub{margin:0 0 12px; font-size:13px; color:var(--muted)}
+  .rule p{margin:.4em 0; font-size:14.5px; line-height:1.55}
+  .formula{
+    display:inline-block; margin:.3em .3em .3em 0; padding:3px 10px; border-radius:8px;
+    background:var(--goldBg); color:var(--redD); font-weight:700; font-size:13.5px;
+  }
+  .exwrap{display:flex; gap:10px; flex-wrap:wrap; margin-top:8px}
+  .ex{background:var(--paper); border:1px solid var(--cardline); border-radius:10px; padding:8px 12px; font-size:13.5px}
+  .ex b{color:var(--navy)}
+  .kofbox{
+    background:var(--redBg); border:2px dashed var(--red); border-radius:12px;
+    padding:14px 16px; margin-top:10px;
+  }
+  .kofbox .letters{font-size:20px; font-weight:700; letter-spacing:.15em; color:var(--redD)}
+  .callout{background:var(--greenBg); border-left:4px solid var(--green); border-radius:0 10px 10px 0; padding:10px 14px; margin-top:10px; font-size:13.5px}
 
-  /* ---- Flashcards ---- */
-  .fc-controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:16px;}
-  .fc-controls select{font-family:'Nunito',sans-serif;font-weight:700;font-size:.9rem;color:var(--text);
-    background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:8px 10px;}
-  .seg{display:inline-flex;background:var(--surface2);border-radius:12px;padding:3px;border:1px solid var(--border);}
-  .seg button{font-family:'Fredoka',sans-serif;font-weight:600;font-size:.85rem;border:none;background:none;
-    color:var(--muted);padding:7px 14px;border-radius:9px;cursor:pointer;}
-  .seg button.active{background:var(--coral);color:#fff;}
+  /* Oefenen */
+  .levels{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px}
+  .lvl{
+    font-family:'Fredoka',sans-serif; font-weight:600; font-size:14px;
+    border:2px solid var(--cardline); background:var(--card); color:var(--ink);
+    padding:9px 16px; border-radius:999px; cursor:pointer;
+  }
+  .lvl[aria-pressed="true"]{border-color:currentColor}
+  .lvl.g{color:var(--green)} .lvl.o{color:var(--gold)} .lvl.r{color:var(--red)}
+  .lvl[aria-pressed="true"].g{background:var(--greenBg)}
+  .lvl[aria-pressed="true"].o{background:var(--goldBg)}
+  .lvl[aria-pressed="true"].r{background:var(--redBg)}
 
-  .card-stage{perspective:1400px;height:250px;margin:6px 0 18px;}
-  .flipcard{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .45s cubic-bezier(.4,.2,.2,1);cursor:pointer;}
-  .flipcard.flipped{transform:rotateY(180deg);}
-  .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:18px;display:flex;flex-direction:column;
-    align-items:center;justify-content:center;text-align:center;padding:24px;}
-  .face.front{background:var(--surface2);border:1px solid var(--border);}
-  .face.back{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;transform:rotateY(180deg);}
-  .face .tag{font-size:.72rem;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--coralD);margin-bottom:10px;}
-  .face.back .tag{color:var(--gold);}
-  .face .word{font-family:'Fredoka',sans-serif;font-size:1.9rem;font-weight:600;line-height:1.2;text-wrap:balance;}
-  .face .note{margin-top:10px;font-size:.85rem;color:var(--muted);font-style:italic;}
-  .face.back .note{color:#C6CBEC;}
-  .face .hint{position:absolute;bottom:14px;font-size:.75rem;color:var(--muted);}
-  .face.back .hint{color:#9AA2D6;}
+  .cardgrid{display:grid; grid-template-columns:repeat(2,1fr); gap:12px}
+  @media(max-width:560px){.cardgrid{grid-template-columns:1fr}}
+  .flip{
+    background:var(--card); border:1px solid var(--cardline); border-radius:12px;
+    padding:14px 16px; cursor:pointer; box-shadow:var(--shadow); min-height:78px;
+  }
+  .flip .q{font-size:15.5px; line-height:1.45}
+  .flip .q b{color:var(--red)}
+  .flip .hint{font-size:12px; color:var(--muted); margin-top:4px}
+  .flip .a{display:none; margin-top:8px; padding-top:8px; border-top:1px dashed var(--cardline); font-size:14.5px; color:var(--green); font-weight:700}
+  .flip.open .a{display:block}
+  .flip.open{border-color:var(--green)}
+  .flip .tap{font-size:11px; color:var(--muted); margin-top:6px}
 
-  .fc-nav{display:flex;align-items:center;justify-content:center;gap:14px;}
-  .fc-nav button{font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.3rem;width:46px;height:46px;
-    border-radius:50%;border:1px solid var(--border);background:var(--surface2);color:var(--navy);cursor:pointer;}
-  :root[data-theme="dark"] .fc-nav button, @media (prefers-color-scheme:dark){.fc-nav button{color:var(--text);}}
-  .fc-nav button:hover{background:var(--coral);color:#fff;border-color:var(--coral);}
-  .fc-count{font-weight:700;color:var(--muted);min-width:64px;text-align:center;font-variant-numeric:tabular-nums;}
-  .fc-shuffle{margin-left:auto;}
+  /* Toets */
+  .setup{background:var(--card); border:1px solid var(--cardline); border-radius:16px; padding:18px 20px; box-shadow:var(--shadow); margin-bottom:18px}
+  .setup .row{display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 14px}
+  .chip{
+    font-family:'Nunito',sans-serif; font-weight:700; font-size:13.5px;
+    border:2px solid var(--cardline); background:var(--paper); color:var(--ink);
+    padding:7px 14px; border-radius:999px; cursor:pointer;
+  }
+  .chip[aria-pressed="true"]{background:var(--navy); border-color:var(--navy); color:#fff}
+  .startbtn{
+    font-family:'Fredoka',sans-serif; font-weight:600; font-size:16px;
+    background:var(--red); color:#fff; border:none; border-radius:12px;
+    padding:12px 22px; cursor:pointer;
+  }
+  .startbtn:hover{background:var(--redD)}
+  .qcard{background:var(--card); border:1px solid var(--cardline); border-radius:16px; padding:20px 22px; box-shadow:var(--shadow)}
+  .qmeta{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px}
+  .qmeta .prog{font-size:12.5px; color:var(--muted); font-weight:700}
+  .qmeta .score{font-size:12.5px; color:var(--navy); font-weight:700}
+  .qsent{font-size:19px; line-height:1.5; margin:10px 0 4px}
+  .qsent .blank{color:var(--red); font-weight:700}
+  .qhint{font-size:13px; color:var(--muted); margin-bottom:14px}
+  .answerrow{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+  .answerrow input{
+    font-family:'Space Mono',monospace; font-size:16px; padding:9px 12px;
+    border:2px solid var(--cardline); border-radius:10px; background:var(--paper); color:var(--ink);
+    min-width:120px; flex:1 1 140px;
+  }
+  .answerrow input:focus{outline:none; border-color:var(--navy)}
+  .checkbtn{
+    font-family:'Fredoka',sans-serif; font-weight:600; background:var(--navy); color:#fff;
+    border:none; border-radius:10px; padding:9px 18px; cursor:pointer; font-size:14.5px;
+  }
+  .feedback{margin-top:12px; padding:10px 14px; border-radius:10px; font-size:14.5px; font-weight:700; display:none}
+  .feedback.ok{display:block; background:var(--greenBg); color:var(--green)}
+  .feedback.bad{display:block; background:var(--redBg); color:var(--redD)}
+  .nextbtn{margin-top:12px; display:none; font-family:'Fredoka',sans-serif; font-weight:600; background:var(--gold); color:#3a2a0a; border:none; border-radius:10px; padding:9px 18px; cursor:pointer; font-size:14.5px}
 
-  /* ---- Toets ---- */
-  .field{margin-bottom:16px;}
-  .field label{display:block;font-weight:700;font-size:.85rem;color:var(--muted);margin-bottom:7px;text-transform:uppercase;letter-spacing:.4px;}
-  .field .seg{width:100%;}
-  .field .seg button{flex:1;}
-  .field select{width:100%;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:700;color:var(--text);
-    background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:11px 12px;}
-  .btn-primary{width:100%;font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.05rem;color:#fff;
-    background:var(--coral);border:none;border-radius:14px;padding:14px;cursor:pointer;margin-top:6px;}
-  .btn-primary:hover{background:var(--coralD);}
-  .btn-secondary{font-family:'Fredoka',sans-serif;font-weight:600;font-size:.95rem;color:var(--navy);
-    background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:11px 16px;cursor:pointer;}
-  :root[data-theme="dark"] .btn-secondary{color:var(--text);}
-  @media (prefers-color-scheme:dark){.btn-secondary{color:var(--text);}}
-  .btn-secondary:hover{border-color:var(--coral);color:var(--coralD);}
+  .results{background:var(--card); border:1px solid var(--cardline); border-radius:16px; padding:22px; box-shadow:var(--shadow); text-align:center}
+  .results .big{font-family:'Fredoka',sans-serif; font-size:44px; color:var(--navy); margin:6px 0}
+  .reviewlist{text-align:left; margin-top:18px; display:grid; gap:8px}
+  .reviewitem{background:var(--redBg); border-radius:10px; padding:10px 14px; font-size:13.5px}
+  .reviewitem b{color:var(--green)}
+  .again{margin-top:16px; font-family:'Fredoka',sans-serif; font-weight:600; background:var(--red); color:#fff; border:none; border-radius:10px; padding:10px 20px; cursor:pointer; font-size:15px}
 
-  .quiz-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
-  .progress-wrap{flex:1;margin-right:14px;}
-  .progress-track{height:8px;background:var(--surface2);border-radius:6px;overflow:hidden;}
-  .progress-fill{height:100%;background:var(--coral);border-radius:6px;transition:width .3s;}
-  .progress-label{font-size:.78rem;color:var(--muted);margin-top:5px;font-weight:700;}
-  .score-pill{background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:6px 14px;
-    font-weight:700;font-size:.85rem;color:var(--navy);white-space:nowrap;}
-  :root[data-theme="dark"] .score-pill{color:var(--text);}
-  @media (prefers-color-scheme:dark){.score-pill{color:var(--text);}}
-
-  .q-word{font-family:'Fredoka',sans-serif;font-size:2rem;font-weight:600;text-align:center;margin:14px 0 24px;text-wrap:balance;}
-  .options{display:grid;gap:10px;}
-  .opt{font-family:'Nunito',sans-serif;font-weight:700;font-size:1rem;text-align:left;color:var(--text);
-    background:var(--surface2);border:2px solid var(--border);border-radius:12px;padding:13px 16px;cursor:pointer;transition:.12s;}
-  .opt:hover:not(:disabled){border-color:var(--coral);}
-  .opt:disabled{cursor:default;}
-  .opt.correct{background:color-mix(in srgb, var(--green) 20%, var(--surface2));border-color:var(--green);color:var(--green);}
-  .opt.wrong{background:color-mix(in srgb, var(--red) 18%, var(--surface2));border-color:var(--red);color:var(--red);}
-
-  .type-row{display:flex;gap:10px;}
-  .type-row input{flex:1;font-family:'Nunito',sans-serif;font-size:1.05rem;font-weight:700;color:var(--text);
-    background:var(--surface2);border:2px solid var(--border);border-radius:12px;padding:13px 16px;}
-  .type-row input:focus{outline:none;border-color:var(--coral);}
-  .type-row button{font-family:'Fredoka',sans-serif;font-weight:600;background:var(--coral);color:#fff;
-    border:none;border-radius:12px;padding:0 20px;cursor:pointer;}
-
-  .feedback{margin-top:14px;border-radius:12px;padding:13px 16px;font-weight:700;display:flex;align-items:center;gap:10px;}
-  .feedback.ok{background:color-mix(in srgb, var(--green) 16%, transparent);color:var(--green);}
-  .feedback.bad{background:color-mix(in srgb, var(--red) 14%, transparent);color:var(--red);}
-  .feedback .sub{font-weight:400;color:var(--muted);}
-
-  .next-wrap{margin-top:16px;text-align:right;}
-  .quiz-bottom{margin-top:18px;text-align:center;}
-  .quiz-bottom a{color:var(--muted);font-size:.85rem;cursor:pointer;text-decoration:underline;}
-
-  .result-score{text-align:center;padding:10px 0 20px;}
-  .result-score .big{font-family:'Fredoka',sans-serif;font-size:3.2rem;font-weight:600;color:var(--coral);}
-  .result-score .lbl{color:var(--muted);font-weight:700;}
-  .review-item{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px dashed var(--border);font-size:.92rem;}
-  .review-item:last-child{border-bottom:none;}
-  .review-item .rw{color:var(--red);font-weight:700;}
-  .review-item .rc{color:var(--green);font-weight:700;}
-  .result-actions{display:flex;gap:10px;margin-top:18px;}
-  .result-actions button{flex:1;}
-
-  footer{text-align:center;color:var(--muted);font-size:.82rem;padding:10px 0 30px;}
+  .badge{display:inline-block; padding:2px 9px; border-radius:999px; font-size:11px; font-weight:700; margin-left:6px}
+  .badge.g{background:var(--greenBg); color:var(--green)} .badge.o{background:var(--goldBg); color:#8a5a12} .badge.r{background:var(--redBg); color:var(--redD)}
 </style>
 </head>
 <body>
-<header class="bar">
-  <div class="inner">
-    <h1>🗝️ Bernards Woordkist</h1>
-    <p>Alle woordenschat tot nu toe · flashcards & toetsen</p>
+
+
+<header class="top">
+  <div class="titlebar">
+    <span class="boat">⛵</span>
+    <div>
+      <h1>Bernards Werkwoordtoets</h1>
+      <p>Tegenwoordige tijd · Verleden tijd · Voltooid deelwoord · Splitsbare werkwoorden</p>
+    </div>
+  </div>
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" id="t-uitleg" aria-selected="true" onclick="showTab('uitleg')">📖 Uitleg</button>
+    <button class="tab" role="tab" id="t-oefenen" aria-selected="false" onclick="showTab('oefenen')">✏️ Oefenen</button>
+    <button class="tab" role="tab" id="t-toets" aria-selected="false" onclick="showTab('toets')">🎯 Zelftoets</button>
   </div>
 </header>
 
-<nav class="tabs">
-  <button class="tab-btn active" data-tab="flash">🃏 Flashcards</button>
-  <button class="tab-btn" data-tab="toets">📝 Toets</button>
-</nav>
+<div class="wrap">
 
-<main class="wrap">
-
-  <!-- FLASHCARDS -->
-  <section id="tab-flash">
-    <div class="panel">
-      <div class="fc-controls">
-        <select id="fc-deck"></select>
-        <div class="seg" id="fc-dir">
-          <button data-dir="nl-en" class="active">NL → EN</button>
-          <button data-dir="en-nl">EN → NL</button>
+  <!-- UITLEG -->
+  <section class="panel" id="p-uitleg">
+    <p class="lead">De regels precies zoals ze in je schoolschrift staan — even opfrissen voordat je gaat oefenen.</p>
+    <div class="rules">
+      <div class="rule">
+        <h2>1 · Tegenwoordige tijd</h2>
+        <p class="sub">enkelvoud &amp; meervoud</p>
+        <p>De persoonsvorm ziet er in de tegenwoordige tijd zo uit:</p>
+        <div class="exwrap">
+          <div class="ex"><b>ik</b> — stam</div>
+          <div class="ex"><b>jij / u</b> — stam + t</div>
+          <div class="ex"><b>hij / zij / het</b> — stam + t</div>
+          <div class="ex"><b>wij / jullie / zij</b> — hele werkwoord</div>
         </div>
-        <button class="btn-secondary fc-shuffle" id="fc-shuffle">🔀 Shuffle</button>
+        <p style="margin-top:10px"><i>ik loop · loop ik? · jij/u loopt · hij/zij/het loopt · wij lopen · jullie lopen · zij lopen</i></p>
+        <div class="callout">⚠️ Let op! De stam is niet altijd hetzelfde als de ik-vorm. De stam krijg je door <b>-en</b> van het hele werkwoord af te halen → <span class="mono">lopen − en = loop</span>.</div>
+        <p style="margin-top:12px"><b>Splitsbare werkwoorden</b> (zoals <i>opbellen</i>, <i>aanzetten</i>): het voorzetsel gaat los en naar het einde van de zin → <span class="mono">Hij belt zijn ouders op.</span></p>
       </div>
 
-      <div class="card-stage">
-        <div class="flipcard" id="flipcard">
-          <div class="face front">
-            <div class="tag" id="fc-front-tag">deck</div>
-            <div class="word" id="fc-front-word">woord</div>
-            <div class="note" id="fc-front-note"></div>
-            <div class="hint">tik om te draaien</div>
-          </div>
-          <div class="face back">
-            <div class="tag">vertaling</div>
-            <div class="word" id="fc-back-word">translation</div>
-            <div class="hint">tik om terug te draaien</div>
-          </div>
+      <div class="rule">
+        <h2>2 · Verleden tijd</h2>
+        <p class="sub">enkelvoud &amp; meervoud</p>
+        <p>De persoonsvorm van een <b>zwak werkwoord</b> in de verleden tijd krijgt <span class="formula">ik-vorm + te(n)</span> of <span class="formula">ik-vorm + de(n)</span>. Bij het meervoud komt er nog een <span class="mono">-n</span> achter.</p>
+        <div class="kofbox">
+          <div class="letters">'t kofschip <span style="font-size:14px;font-weight:400">(of: sexy fokschaap)</span></div>
+          <p style="margin:8px 0 0">Kijk naar de laatste letter van <b>de stam</b>:</p>
+          <p style="margin:4px 0">Staat die letter <b>wél</b> in ’t kofschip (<span class="mono">t k f s ch p</span>) → <b>+te(n)</b></p>
+          <p style="margin:4px 0">Staat die letter <b>niet</b> in ’t kofschip → <b>+de(n)</b></p>
         </div>
+        <div class="exwrap" style="margin-top:12px">
+          <div class="ex"><b>fietsen</b> — stam <i>fiets</i> eindigt op ’s’ (wél kofschip) → ik fietste, wij fietsten</div>
+          <div class="ex"><b>rennen</b> — stam <i>ren</i> eindigt op ’n’ (niet kofschip) → ik rende, wij renden</div>
+        </div>
+        <div class="callout">⚠️ Veranderletters: bij werkwoorden als <i>verhuizen</i> (stam <i>verhuis</i>) en <i>verven</i> (stam <i>verf</i>) is de laatste letter eigenlijk stiekem een <b>z</b> of een <b>v</b> — die staan niet in ’t kofschip, dus altijd <b>+de(n)</b>: <span class="mono">verhuisde(n), verfde(n)</span>.</div>
       </div>
 
-      <div class="fc-nav">
-        <button id="fc-prev">‹</button>
-        <span class="fc-count" id="fc-count">1 / 1</span>
-        <button id="fc-next">›</button>
+      <div class="rule">
+        <h2>3 · Voltooid deelwoord</h2>
+        <p class="sub">voor de voltooide tijd: heb/ben/is/zijn + deelwoord</p>
+        <p>Een voltooid deelwoord begint meestal met <b>ge-</b> (soms <b>be-, ver-, ont-</b>) en eindigt op:</p>
+        <div class="exwrap">
+          <div class="ex"><b>-d</b> of <b>-t</b> — zwakke werkwoorden</div>
+          <div class="ex"><b>-en</b> — sterke werkwoorden</div>
+        </div>
+        <p style="margin-top:10px">Bij een <b>zwak</b> werkwoord: weet je hoe de verleden tijd gaat (’t kofschip), dan weet je ook het deelwoord.</p>
+        <div class="exwrap">
+          <div class="ex">rende → <b>gerend</b></div>
+          <div class="ex">fietste → <b>gefietst</b></div>
+          <div class="ex">verhuisde → <b>verhuisd</b></div>
+        </div>
+        <p style="margin-top:10px">Een <b>sterk</b> deelwoord moet je gewoon uit je hoofd kennen — geen vaste regel:</p>
+        <div class="exwrap">
+          <div class="ex">lopen → <b>gelopen</b></div>
+          <div class="ex">slapen → <b>geslapen</b></div>
+          <div class="ex">worden → <b>geworden</b></div>
+          <div class="ex">doen → <b>gedaan</b></div>
+        </div>
+        <p style="margin-top:10px"><b>Splitsbaar + voltooid deelwoord:</b> het voorzetsel plakt vast vóór het <span class="mono">ge-</span> → <span class="mono">op + gestaan = opgestaan</span>, <span class="mono">aan + gekleed = aangekleed</span>.</p>
       </div>
     </div>
+  </section>
+
+  <!-- OEFENEN -->
+  <section class="panel" id="p-oefenen" hidden>
+    <p class="lead">Kies een niveau en tik op een kaartje om het antwoord te zien. Zeg de hele zin hardop voor je kijkt!</p>
+    <div class="levels">
+      <button class="lvl g" aria-pressed="true" onclick="setLevel('makkelijk',this)">🟢 Makkelijk</button>
+      <button class="lvl o" aria-pressed="false" onclick="setLevel('gemiddeld',this)">🟡 Gemiddeld</button>
+      <button class="lvl r" aria-pressed="false" onclick="setLevel('moeilijk',this)">🔴 Moeilijk</button>
+    </div>
+    <div id="oefen-sub" style="margin-bottom:10px; font-size:13px; color:var(--muted); font-weight:700"></div>
+    <div class="cardgrid" id="oefen-grid"></div>
   </section>
 
   <!-- TOETS -->
-  <section id="tab-toets" hidden>
-
-    <div class="panel" id="quiz-settings">
-      <h2 style="margin-top:0;">Toets instellen</h2>
-
-      <div class="field">
-        <label>Richting</label>
-        <div class="seg" id="q-dir">
-          <button data-dir="nl-en" class="active">Nederlands → Engels</button>
-          <button data-dir="en-nl">Engels → Nederlands</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Soort vragen</label>
-        <div class="seg" id="q-type">
-          <button data-type="mc" class="active">Meerkeuze</button>
-          <button data-type="typed">Zelf typen</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Categorie</label>
-        <select id="q-deck"></select>
-      </div>
-
-      <div class="field">
-        <label>Aantal vragen</label>
-        <select id="q-count">
-          <option value="10">10</option>
-          <option value="20" selected>20</option>
-          <option value="30">30</option>
-          <option value="all">Alle woorden</option>
-        </select>
-      </div>
-
-      <button class="btn-primary" id="q-start">Start toets</button>
+  <section class="panel" id="p-toets" hidden>
+    <div class="setup" id="toets-setup">
+      <h2 style="margin:0 0 4px; font-size:19px; color:var(--navy)">Zelftoets</h2>
+      <p class="lead" style="margin:4px 0 0">Typ steeds de juiste vorm. Je krijgt meteen te zien of het goed is.</p>
+      <p style="font-weight:700; margin:14px 0 4px; font-size:13.5px">Aantal vragen</p>
+      <div class="row" id="countrow"></div>
+      <p style="font-weight:700; margin:4px 0 4px; font-size:13.5px">Welk niveau?</p>
+      <div class="row" id="levelrow"></div>
+      <button class="startbtn" onclick="startQuiz()">Start de toets ⛵</button>
     </div>
-
-    <div class="panel" id="quiz-running" hidden>
-      <div class="quiz-top">
-        <div class="progress-wrap">
-          <div class="progress-track"><div class="progress-fill" id="q-progress-fill" style="width:0%"></div></div>
-          <div class="progress-label" id="q-progress-label">Vraag 1 van 10</div>
-        </div>
-        <div class="score-pill" id="q-score">✓ 0</div>
-      </div>
-
-      <div class="q-word" id="q-word">woord</div>
-
-      <div class="options" id="q-options"></div>
-
-      <div class="type-row" id="q-typerow" hidden>
-        <input type="text" id="q-typeinput" placeholder="Typ je antwoord..." autocomplete="off">
-        <button id="q-typecheck">Controleer</button>
-      </div>
-
-      <div id="q-feedback"></div>
-
-      <div class="next-wrap" id="q-nextwrap" hidden>
-        <button class="btn-primary" id="q-next" style="width:auto;padding:12px 28px;">Volgende →</button>
-      </div>
-
-      <div class="quiz-bottom"><a id="q-stop">Stoppen en instellingen aanpassen</a></div>
-    </div>
-
-    <div class="panel" id="quiz-results" hidden>
-      <div class="result-score">
-        <div class="big" id="r-score">0/0</div>
-        <div class="lbl" id="r-label">goed beantwoord</div>
-      </div>
-      <div id="r-review"></div>
-      <div class="result-actions">
-        <button class="btn-secondary" id="r-retry">🔁 Opnieuw</button>
-        <button class="btn-primary" id="r-newsettings" style="margin-top:0;">Nieuwe toets</button>
-      </div>
-    </div>
-
+    <div id="quiz-live" hidden></div>
+    <div id="quiz-results" hidden></div>
   </section>
 
-</main>
-
-<footer>Gemaakt voor Bernard · Nederlands A1–A2</footer>
+</div>
 
 <script>
+try{
+  var savedTab = localStorage.getItem('wwt-tab');
+  if(savedTab) showTab(savedTab, true);
+}catch(e){}
+
+function showTab(name, silent){
+  ['uitleg','oefenen','toets'].forEach(function(n){
+    document.getElementById('p-'+n).hidden = (n!==name);
+    document.getElementById('t-'+n).setAttribute('aria-selected', n===name);
+  });
+  if(!silent){ try{ localStorage.setItem('wwt-tab', name); }catch(e){} }
+}
+
 /* ============ DATA ============ */
-const DECKS = [
-  {id:'work', label:'🏢 Werk & dagelijks leven'},
-  {id:'vergelijk', label:'⚖️ Vergelijken & eten'},
-  {id:'school', label:'🏠 School & huis'},
-  {id:'reflexief', label:'🪞 Reflexieve werkwoorden'},
-  {id:'voorzetsels', label:'🧭 Voorzetsels'},
-  {id:'kleding', label:'👕 Kleding'},
-  {id:'lichaam', label:'🧍 Lichaamsdelen'},
-  {id:'nieuw', label:'🆕 Nieuwe woorden'},
+var EXERCISES = [
+  // Makkelijk — tegenwoordige tijd, regelmatig
+  {id:1, level:'makkelijk', type:'tt', pre:'William ', blank:'___', post:' netjes.', inf:'schrijven', ans:['schrijft']},
+  {id:2, level:'makkelijk', type:'tt', pre:'Joris ', blank:'___', post:' vaak kaartjes.', inf:'maken', ans:['maakt']},
+  {id:3, level:'makkelijk', type:'tt', pre:'Daniëlle ', blank:'___', post:' van lezen.', inf:'houden', ans:['houdt']},
+  {id:4, level:'makkelijk', type:'tt', pre:'Ik ', blank:'___', post:' lezen ook leuk.', inf:'vinden', ans:['vind']},
+  {id:5, level:'makkelijk', type:'tt', pre:'Quincy ', blank:'___', post:' de woorden in het dictee bijna goed.', inf:'spellen', ans:['spelt']},
+  {id:6, level:'makkelijk', type:'tt', pre:'Maartje ', blank:'___', post:' haar verjaardag vandaag.', inf:'vieren', ans:['viert']},
+  {id:7, level:'makkelijk', type:'tt', pre:'Anouk ', blank:'___', post:' het huiswerk door aan Anke.', inf:'geven', ans:['geeft']},
+  {id:8, level:'makkelijk', type:'tt', pre:'Elisa ', blank:'___', post:' graag op kamp.', inf:'survivallen', ans:['survivalt']},
+  {id:9, level:'makkelijk', type:'tt', pre:'Iris ', blank:'___', post:' lange brieven.', inf:'schrijven', ans:['schrijft']},
+  {id:10, level:'makkelijk', type:'tt', pre:'Wij ', blank:'___', post:' vaak naar muziek.', inf:'luisteren', ans:['luisteren']},
+  // Makkelijk — splitsbare werkwoorden, tegenwoordige tijd (2 blanks)
+  {id:11, level:'makkelijk', type:'tt-split', pre:'Hij ', blank:'___', mid:' zijn ouders ', blank2:'___', post:'.', inf:'opbellen', ans:['belt','op']},
+  {id:12, level:'makkelijk', type:'tt-split', pre:'Wij ', blank:'___', mid:' een pijnstiller ', blank2:'___', post:'.', inf:'innemen', ans:['nemen','in']},
+  {id:13, level:'makkelijk', type:'tt-split', pre:'Jij ', blank:'___', mid:' de prachtige bloemen ', blank2:'___', post:'.', inf:'natekenen', ans:['tekent','na']},
+  {id:14, level:'makkelijk', type:'tt-split', pre:'Ik ', blank:'___', mid:' het glas ', blank2:'___', post:'.', inf:'omspoelen', ans:['spoel','om']},
+  {id:15, level:'makkelijk', type:'tt-split', pre:'U ', blank:'___', mid:' de televisie ', blank2:'___', post:'.', inf:'aanzetten', ans:['zet','aan']},
+  // Gemiddeld — verleden tijd
+  {id:16, level:'gemiddeld', type:'vt', pre:'Ik ', blank:'___', post:' vorige week veel aandacht aan de lessen.', inf:'besteden', ans:['besteedde']},
+  {id:17, level:'gemiddeld', type:'vt', pre:'Wij ', blank:'___', post:' vorig jaar naar Spanje.', inf:'reizen', ans:['reisden']},
+  {id:18, level:'gemiddeld', type:'vt', pre:'Hij ', blank:'___', post:' zijn haar rood.', inf:'verven', ans:['verfde']},
+  {id:19, level:'gemiddeld', type:'vt', pre:'Mijn ouders ', blank:'___', post:' vorig jaar naar een nieuw huis.', inf:'verhuizen', ans:['verhuisden']},
+  {id:20, level:'gemiddeld', type:'vt', pre:'Ik ', blank:'___', post:' gisteren mijn fiets.', inf:'wassen', ans:['waste']},
+  {id:21, level:'gemiddeld', type:'vt', pre:'Wij ', blank:'___', post:' de hele avond voor de toets.', inf:'studeren', ans:['studeerden']},
+  {id:22, level:'gemiddeld', type:'vt-split', pre:'Hij ', blank:'___', mid:' zich snel ', blank2:'___', post:'.', inf:'aankleden', ans:['kleedde','aan']},
+  {id:23, level:'gemiddeld', type:'vt-split', pre:'Ik ', blank:'___', mid:' vanochtend vroeg ', blank2:'___', post:'.', inf:'opstaan', ans:['stond','op']},
+  {id:24, level:'gemiddeld', type:'vt', pre:'Zij ', blank:'___', post:' een appel.', inf:'eten', ans:['at']},
+  {id:25, level:'gemiddeld', type:'vt', pre:'Wij ', blank:'___', post:' naar het park.', inf:'gaan', ans:['gingen']},
+  // Moeilijk — voltooid deelwoord
+  {id:26, level:'moeilijk', type:'vd', pre:'Ik heb vanmiddag ', blank:'___', post:'.', inf:'rennen', ans:['gerend']},
+  {id:27, level:'moeilijk', type:'vd', pre:'Ik heb naar school ', blank:'___', post:'.', inf:'fietsen', ans:['gefietst']},
+  {id:28, level:'moeilijk', type:'vd', pre:'Wij hebben vorig jaar veel ', blank:'___', post:'.', inf:'reizen', ans:['gereisd']},
+  {id:29, level:'moeilijk', type:'vd', pre:'Hij heeft zijn haar ', blank:'___', post:'.', inf:'verven', ans:['geverfd']},
+  {id:30, level:'moeilijk', type:'vd', pre:'Mijn ouders zijn vorig jaar ', blank:'___', post:'.', inf:'verhuizen', ans:['verhuisd']},
+  {id:31, level:'moeilijk', type:'vd', pre:'Wij hebben de hele nacht ', blank:'___', post:'.', inf:'slapen', ans:['geslapen']},
+  {id:32, level:'moeilijk', type:'vd', pre:'Hij is heel moe ', blank:'___', post:'.', inf:'worden', ans:['geworden']},
+  {id:33, level:'moeilijk', type:'vd', pre:'Ik ben vanmorgen vroeg ', blank:'___', post:'.', inf:'opstaan', ans:['opgestaan']},
+  {id:34, level:'moeilijk', type:'vd', pre:'Zij heeft zich snel ', blank:'___', post:'.', inf:'aankleden', ans:['aangekleed']},
+];
+var FOUTZOEKEN = [
+  {wrong:'Ik heb gisteren naar school gegaan.', right:'Ik ben gisteren naar school gegaan.', why:'beweging van A naar B → hulpwerkwoord zijn'},
+  {wrong:'Hij aankleedde zich snel.', right:'Hij kleedde zich snel aan.', why:'splitsbaar werkwoord: het voorzetsel gaat los naar het einde'},
 ];
 
-const VOCAB = [
-  // WERK & DAGELIJKS LEVEN
-  {nl:'rijden', en:'to drive', note:'reed, gereden (h)', deck:'work'},
-  {nl:'opstaan', en:'to get up', deck:'work'},
-  {nl:'bellen', en:'to call (phone)', deck:'work'},
-  {nl:'het kantoor', en:'the office', deck:'work'},
-  {nl:'de collega', en:'the colleague', deck:'work'},
-  {nl:'de koning', en:'the king', deck:'work'},
-  {nl:'afspreken', en:'to arrange / make plans', deck:'work'},
-  {nl:'halen', en:'to fetch / get', deck:'work'},
-  {nl:'nemen', en:'to take', deck:'work'},
-  {nl:'het potlood', en:'the pencil', deck:'work'},
-  {nl:'de tas', en:'the bag', deck:'work'},
-  {nl:'opruimen', en:'to tidy up', deck:'work'},
-  {nl:'de kamer', en:'the room', deck:'work'},
-  {nl:'het liefst', en:['most of all','preferably'], deck:'work'},
-  {nl:'liever', en:'rather / prefer', deck:'work'},
-  {nl:'gamen', en:'to play video games', deck:'work'},
-  {nl:'nat', en:'wet', deck:'work'},
-  {nl:'droog', en:'dry', deck:'work'},
-  {nl:'pijn doen', en:'to hurt', deck:'work'},
-  {nl:'schrijven', en:'to write', deck:'work'},
-  {nl:'beschrijven', en:'to describe', deck:'work'},
-  {nl:'verdrietig', en:'sad', deck:'work'},
+/* ============ OEFENEN TAB ============ */
+var curLevel='makkelijk';
+var LEVEL_LABEL={makkelijk:'🟢 Makkelijk — tegenwoordige tijd', gemiddeld:'🟡 Gemiddeld — verleden tijd', moeilijk:'🔴 Moeilijk — voltooid deelwoord'};
 
-  // VERGELIJKEN & ETEN
-  {nl:'lachen', en:'to laugh', deck:'vergelijk'},
-  {nl:'grappig', en:'funny', deck:'vergelijk'},
-  {nl:'pakken', en:'to grab / take', deck:'vergelijk'},
-  {nl:'de steen', en:'the stone', deck:'vergelijk'},
-  {nl:'slim', en:'smart', deck:'vergelijk'},
-  {nl:'komen', en:'to come', note:'kwam(en), gekomen (z)', deck:'vergelijk'},
-  {nl:'gooien', en:'to throw', deck:'vergelijk'},
-  {nl:'sterk', en:'strong', deck:'vergelijk'},
-  {nl:'sterker', en:'stronger', deck:'vergelijk'},
-  {nl:'snel', en:'fast', deck:'vergelijk'},
-  {nl:'sneller', en:'faster', deck:'vergelijk'},
-  {nl:'goed', en:'good', deck:'vergelijk'},
-  {nl:'beter', en:'better', deck:'vergelijk'},
-  {nl:'beste', en:'best', deck:'vergelijk'},
-  {nl:'de kaas', en:'the cheese', deck:'vergelijk'},
-  {nl:'het gehakt', en:'the ground meat / mince', deck:'vergelijk'},
-  {nl:'rundvlees', en:'beef', deck:'vergelijk'},
-  {nl:'stom', en:['stupid','dumb'], deck:'vergelijk'},
-  {nl:'de ui', en:'the onion', deck:'vergelijk'},
-  {nl:'volgens mij', en:'in my opinion', deck:'vergelijk'},
-  {nl:'dom', en:['dumb','stupid'], deck:'vergelijk'},
-  {nl:'recentelijk', en:'recently', deck:'vergelijk'},
-  {nl:'zonder', en:'without', deck:'vergelijk'},
-  {nl:'het ijsje', en:'the ice cream (treat)', deck:'vergelijk'},
-  {nl:'de lepel', en:'the spoon', deck:'vergelijk'},
-  {nl:'doen', en:'to do', note:'deed(en), gedaan (h)', deck:'vergelijk'},
-  {nl:'zwemmen', en:'to swim', note:'zwom(men), gezwommen (h)', deck:'vergelijk'},
-  {nl:'de vlag', en:'the flag', deck:'vergelijk'},
-  {nl:'mooi', en:['beautiful','nice'], deck:'vergelijk'},
-  {nl:'bijna', en:'almost', deck:'vergelijk'},
-  {nl:'groot', en:'big', deck:'vergelijk'},
-  {nl:'klein', en:'small', deck:'vergelijk'},
-  {nl:'langzaam', en:'slow', deck:'vergelijk'},
-  {nl:'duur', en:'expensive', deck:'vergelijk'},
-  {nl:'goedkoop', en:'cheap', deck:'vergelijk'},
-  {nl:'leuk', en:['fun','nice'], deck:'vergelijk'},
-  {nl:'saai', en:'boring', deck:'vergelijk'},
-  {nl:'zwak', en:'weak', deck:'vergelijk'},
-  {nl:'warm', en:'warm', deck:'vergelijk'},
-  {nl:'koud', en:'cold', deck:'vergelijk'},
-  {nl:'lang', en:'long / tall', deck:'vergelijk'},
-  {nl:'kort', en:'short', deck:'vergelijk'},
-  {nl:'nieuw', en:'new', deck:'vergelijk'},
-  {nl:'oud', en:'old', deck:'vergelijk'},
-
-  // SCHOOL & HUIS
-  {nl:'slopen', en:'to demolish', deck:'school'},
-  {nl:'het been', en:'the leg', deck:'school'},
-  {nl:'de baan', en:'the job', deck:'school'},
-  {nl:'het werk', en:'the work', deck:'school'},
-  {nl:'de werkdag', en:'the workday', deck:'school'},
-  {nl:'de werkweek', en:'the workweek', deck:'school'},
-  {nl:'het deel', en:'the part', deck:'school'},
-  {nl:'het stuk', en:'the piece', deck:'school'},
-  {nl:'het weer', en:'the weather', deck:'school'},
-  {nl:'schoonmaken', en:'to clean', deck:'school'},
-  {nl:'de tuin', en:'the garden', deck:'school'},
-  {nl:'de voortuin', en:'the front garden', deck:'school'},
-  {nl:'moeten', en:'to have to / must', note:'moest(en), gemoeten (h)', deck:'school'},
-  {nl:'heerlijk', en:['delicious','lovely'], deck:'school'},
-  {nl:'de kom', en:'the bowl', deck:'school'},
-  {nl:'daarna', en:'afterwards', deck:'school'},
-  {nl:'na', en:'after', deck:'school'},
-  {nl:'het toetje', en:'the dessert', deck:'school'},
-  {nl:'het voorbeeld', en:'the example', deck:'school'},
-  {nl:'splitsen', en:'to split', deck:'school'},
-  {nl:'het begin', en:'the beginning', deck:'school'},
-  {nl:'het einde', en:'the end', deck:'school'},
-  {nl:'voor', en:['for','in front of'], deck:'school'},
-  {nl:'achter', en:'behind', deck:'school'},
-  {nl:'vergelijken', en:'to compare', deck:'school'},
-  {nl:'het bijvoeglijk naamwoord', en:'the adjective', deck:'school'},
-  {nl:'het zelfstandig naamwoord', en:'the noun', deck:'school'},
-  {nl:'de worst', en:'the sausage', deck:'school'},
-  {nl:'de oom', en:'the uncle', deck:'school'},
-  {nl:'brutaal', en:['cheeky','rude'], deck:'school'},
-  {nl:'braaf', en:'well-behaved', deck:'school'},
-  {nl:'staan', en:'to stand', note:'stond, gestaan (z)', deck:'school'},
-  {nl:'uitleggen', en:'to explain', deck:'school'},
-  {nl:'allemaal', en:'all / everyone', deck:'school'},
-  {nl:'sinds', en:'since', deck:'school'},
-  {nl:'de graad', en:'the grade / degree', deck:'school'},
-  {nl:'de brug', en:'the bridge', deck:'school'},
-  {nl:'de brugklas', en:'first year of secondary school', deck:'school'},
-
-  // REFLEXIEVE WERKWOORDEN
-  {nl:'zich wassen', en:'to wash oneself', deck:'reflexief'},
-  {nl:'zich aankleden', en:'to get dressed', deck:'reflexief'},
-  {nl:'zich haasten', en:'to hurry', deck:'reflexief'},
-  {nl:'zich voelen', en:'to feel', deck:'reflexief'},
-  {nl:'zich vervelen', en:'to be bored', deck:'reflexief'},
-  {nl:'zich schamen', en:'to be ashamed', deck:'reflexief'},
-  {nl:'zich vergissen', en:'to be mistaken', deck:'reflexief'},
-
-  // VOORZETSELS
-  {nl:'in', en:'in', deck:'voorzetsels'},
-  {nl:'op', en:'on', deck:'voorzetsels'},
-  {nl:'aan', en:'on / to', deck:'voorzetsels'},
-  {nl:'bij', en:'near / at', deck:'voorzetsels'},
-  {nl:'naast', en:'next to', deck:'voorzetsels'},
-  {nl:'tussen', en:'between', deck:'voorzetsels'},
-  {nl:'om', en:'around / at', deck:'voorzetsels'},
-  {nl:'over', en:'over / in (time)', deck:'voorzetsels'},
-  {nl:'wachten op', en:'to wait for', deck:'voorzetsels'},
-  {nl:'kijken naar', en:'to look at', deck:'voorzetsels'},
-  {nl:'houden van', en:'to love / like', deck:'voorzetsels'},
-  {nl:'denken aan', en:'to think of', deck:'voorzetsels'},
-
-  // KLEDING
-  {nl:'het shirt', en:'the shirt', deck:'kleding'},
-  {nl:'de broek', en:'the pants', deck:'kleding'},
-  {nl:'de korte broek', en:'the shorts', deck:'kleding'},
-  {nl:'de jas', en:['the coat','the jacket'], deck:'kleding'},
-  {nl:'de trui', en:'the sweater', deck:'kleding'},
-  {nl:'de sokken', en:'the socks', deck:'kleding'},
-  {nl:'de schoenen', en:'the shoes', deck:'kleding'},
-  {nl:'de jurk', en:'the dress', deck:'kleding'},
-  {nl:'de pet', en:'the cap', deck:'kleding'},
-  {nl:'de sjaal', en:'the scarf', deck:'kleding'},
-  {nl:'de handschoenen', en:'the gloves', deck:'kleding'},
-  {nl:'de pyjama', en:'the pajamas', deck:'kleding'},
-
-  // LICHAAMSDELEN
-  {nl:'het haar', en:'the hair', deck:'lichaam'},
-  {nl:'het gezicht', en:'the face', deck:'lichaam'},
-  {nl:'het oog', en:'the eye', note:'mv. de ogen', deck:'lichaam'},
-  {nl:'het oor', en:'the ear', note:'mv. de oren', deck:'lichaam'},
-  {nl:'de neus', en:'the nose', deck:'lichaam'},
-  {nl:'de mond', en:'the mouth', deck:'lichaam'},
-  {nl:'de tanden', en:'the teeth', deck:'lichaam'},
-  {nl:'de nek', en:'the neck', deck:'lichaam'},
-  {nl:'de arm', en:'the arm', deck:'lichaam'},
-  {nl:'de hand', en:'the hand', deck:'lichaam'},
-  {nl:'de vinger', en:'the finger', deck:'lichaam'},
-  {nl:'de buik', en:['the belly','the stomach'], deck:'lichaam'},
-  {nl:'de rug', en:'the back', deck:'lichaam'},
-  {nl:'de voet', en:'the foot', deck:'lichaam'},
-  {nl:'de teen', en:'the toe', deck:'lichaam'},
-
-  // NIEUWE WOORDEN
-  {nl:'toevallig', en:['by chance','coincidentally'], deck:'nieuw'},
-  {nl:'spuiten', en:'to inject', note:'spoot, gespoten (h)', deck:'nieuw'},
-  {nl:'zweren', en:'to swear (an oath)', deck:'nieuw'},
-  {nl:'spreken', en:'to speak', note:'sprak, gesproken (h)', deck:'nieuw'},
-  {nl:'anabolen', en:'anabolic steroids', deck:'nieuw'},
-  {nl:'de druk', en:'the pressure', deck:'nieuw'},
-  {nl:'het bloed', en:'the blood', deck:'nieuw'},
-  {nl:'het vet', en:'the fat', deck:'nieuw'},
-  {nl:'laag', en:'low', deck:'nieuw'},
-  {nl:'hoog', en:'high', deck:'nieuw'},
-  {nl:'de ader', en:'the vein', deck:'nieuw'},
-  {nl:'aantrekken', en:['to put on (clothes)','to attract'], deck:'nieuw'},
-  {nl:'trekken', en:'to pull', deck:'nieuw'},
-  {nl:'aankleden', en:'to get dressed', deck:'nieuw'},
-  {nl:'gebeuren', en:'to happen', deck:'nieuw'},
-  {nl:'andere', en:'other', deck:'nieuw'},
-  {nl:'liggen', en:'to lie (down)', deck:'nieuw'},
-  {nl:'het licht', en:'the light', deck:'nieuw'},
-  {nl:'de spiegel', en:'the mirror', deck:'nieuw'},
-  {nl:'dragen', en:['to wear','to carry'], deck:'nieuw'},
-  {nl:'de paraplu', en:'the umbrella', deck:'nieuw'},
-  {nl:'het sportbroekje', en:'the sports shorts', deck:'nieuw'},
-];
-
-function deckLabel(id){ const d=DECKS.find(d=>d.id===id); return d?d.label:id; }
-function primary(v){ return Array.isArray(v)?v[0]:v; }
-
-/* ============ TABS ============ */
-document.querySelectorAll('.tab-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('tab-flash').hidden = btn.dataset.tab!=='flash';
-    document.getElementById('tab-toets').hidden = btn.dataset.tab!=='toets';
+function setLevel(lvl, btn){
+  curLevel=lvl;
+  document.querySelectorAll('.lvl').forEach(function(b){b.setAttribute('aria-pressed', b===btn);});
+  renderOefen();
+}
+function fullSentence(x, revealed){
+  if(x.blank2!==undefined){
+    var a=revealed? '<b>'+x.ans[0]+'</b>' : '<span class="blank">___</span>';
+    var b=revealed? '<b>'+x.ans[1]+'</b>' : '<span class="blank">___</span>';
+    return x.pre+a+x.mid+b+x.post;
+  }
+  var a=revealed? '<b>'+x.ans[0]+'</b>' : '<span class="blank">___</span>';
+  return x.pre+a+x.post;
+}
+function renderOefen(){
+  document.getElementById('oefen-sub').textContent = LEVEL_LABEL[curLevel];
+  var grid=document.getElementById('oefen-grid');
+  grid.innerHTML='';
+  var items = EXERCISES.filter(function(x){return x.level===curLevel;});
+  items.forEach(function(x){
+    var card=document.createElement('div');
+    card.className='flip';
+    card.innerHTML = '<div class="q">'+fullSentence(x,false)+'</div>'
+      + '<div class="hint">('+x.inf+')</div>'
+      + '<div class="a">'+fullSentence(x,true)+'</div>'
+      + '<div class="tap">tik voor het antwoord</div>';
+    card.onclick=function(){ card.classList.toggle('open'); };
+    grid.appendChild(card);
   });
-});
-
-/* ============ DECK SELECTS ============ */
-function fillDeckSelect(sel, withAll){
-  sel.innerHTML='';
-  if(withAll){ const o=document.createElement('option'); o.value='all'; o.textContent='Alle woorden ('+VOCAB.length+')'; sel.appendChild(o); }
-  DECKS.forEach(d=>{
-    const o=document.createElement('option'); o.value=d.id;
-    o.textContent=d.label+' ('+VOCAB.filter(v=>v.deck===d.id).length+')';
-    sel.appendChild(o);
-  });
-}
-fillDeckSelect(document.getElementById('fc-deck'), true);
-fillDeckSelect(document.getElementById('q-deck'), true);
-
-/* ============ FLASHCARDS ============ */
-const fcState = { deck:'all', dir:'nl-en', pool:[], idx:0, flipped:false };
-
-function fcBuildPool(){
-  fcState.pool = fcState.deck==='all' ? VOCAB.slice() : VOCAB.filter(v=>v.deck===fcState.deck);
-  fcState.idx = 0; fcState.flipped=false;
-  document.getElementById('flipcard').classList.remove('flipped');
-}
-function fcShuffle(){
-  for(let i=fcState.pool.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [fcState.pool[i],fcState.pool[j]]=[fcState.pool[j],fcState.pool[i]]; }
-  fcState.idx=0; fcState.flipped=false;
-  document.getElementById('flipcard').classList.remove('flipped');
-  fcRender();
-}
-function fcRender(){
-  const v = fcState.pool[fcState.idx];
-  if(!v) return;
-  const frontIsNl = fcState.dir==='nl-en';
-  document.getElementById('fc-front-tag').textContent = deckLabel(v.deck) + (frontIsNl ? ' · NL' : ' · EN');
-  document.getElementById('fc-front-word').textContent = frontIsNl ? v.nl : primary(v.en);
-  document.getElementById('fc-front-note').textContent = frontIsNl ? (v.note||'') : '';
-  document.getElementById('fc-back-word').textContent = frontIsNl ? primary(v.en) : v.nl;
-  document.getElementById('fc-count').textContent = (fcState.idx+1)+' / '+fcState.pool.length;
-}
-document.getElementById('flipcard').addEventListener('click',()=>{
-  fcState.flipped=!fcState.flipped;
-  document.getElementById('flipcard').classList.toggle('flipped', fcState.flipped);
-});
-document.getElementById('fc-prev').addEventListener('click',()=>{
-  fcState.idx = (fcState.idx-1+fcState.pool.length)%fcState.pool.length;
-  fcState.flipped=false; document.getElementById('flipcard').classList.remove('flipped'); fcRender();
-});
-document.getElementById('fc-next').addEventListener('click',()=>{
-  fcState.idx = (fcState.idx+1)%fcState.pool.length;
-  fcState.flipped=false; document.getElementById('flipcard').classList.remove('flipped'); fcRender();
-});
-document.getElementById('fc-deck').addEventListener('change',e=>{ fcState.deck=e.target.value; fcBuildPool(); fcRender(); });
-document.getElementById('fc-shuffle').addEventListener('click', fcShuffle);
-document.querySelectorAll('#fc-dir button').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('#fc-dir button').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    fcState.dir = btn.dataset.dir;
-    fcState.flipped=false; document.getElementById('flipcard').classList.remove('flipped');
-    fcRender();
-  });
-});
-fcBuildPool(); fcRender();
-
-/* ============ TOETS ============ */
-const qSettings = { dir:'nl-en', type:'mc', deck:'all', count:20 };
-document.querySelectorAll('#q-dir button').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('#q-dir button').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active'); qSettings.dir=btn.dataset.dir;
-  });
-});
-document.querySelectorAll('#q-type button').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('#q-type button').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active'); qSettings.type=btn.dataset.type;
-  });
-});
-
-function normalize(str){
-  return String(str).toLowerCase().trim()
-    .replace(/^(de |het |to |the |an |a )/,'')
-    .replace(/[^\w\s]/g,'')
-    .replace(/\s+/g,' ').trim();
-}
-function isCorrect(userInput, correctAnswer){
-  const answers = Array.isArray(correctAnswer)?correctAnswer:[correctAnswer];
-  const nu = normalize(userInput);
-  return answers.some(a=>normalize(a)===nu);
-}
-
-let quiz = null;
-
-document.getElementById('q-start').addEventListener('click',()=>{
-  qSettings.deck = document.getElementById('q-deck').value;
-  qSettings.count = document.getElementById('q-count').value;
-
-  let pool = qSettings.deck==='all' ? VOCAB.slice() : VOCAB.filter(v=>v.deck===qSettings.deck);
-  for(let i=pool.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [pool[i],pool[j]]=[pool[j],pool[i]]; }
-  const n = qSettings.count==='all' ? pool.length : Math.min(parseInt(qSettings.count,10), pool.length);
-  pool = pool.slice(0,n);
-
-  quiz = { items:pool, i:0, score:0, wrong:[], answered:false };
-  document.getElementById('quiz-settings').hidden = true;
-  document.getElementById('quiz-results').hidden = true;
-  document.getElementById('quiz-running').hidden = false;
-  renderQuestion();
-});
-
-function currentAskWord(v){ return qSettings.dir==='nl-en' ? v.nl : primary(v.en); }
-function currentAnswer(v){ return qSettings.dir==='nl-en' ? v.en : v.nl; }
-
-function renderQuestion(){
-  const v = quiz.items[quiz.i];
-  quiz.answered = false;
-  document.getElementById('q-progress-fill').style.width = ((quiz.i)/quiz.items.length*100)+'%';
-  document.getElementById('q-progress-label').textContent = 'Vraag '+(quiz.i+1)+' van '+quiz.items.length;
-  document.getElementById('q-score').textContent = '✓ '+quiz.score;
-  document.getElementById('q-word').textContent = currentAskWord(v);
-  document.getElementById('q-feedback').innerHTML='';
-  document.getElementById('q-nextwrap').hidden = true;
-
-  const optionsBox = document.getElementById('q-options');
-  const typeRow = document.getElementById('q-typerow');
-  optionsBox.innerHTML=''; optionsBox.hidden = qSettings.type!=='mc';
-  typeRow.hidden = qSettings.type!=='typed';
-
-  if(qSettings.type==='mc'){
-    const correctText = primary(currentAnswer(v));
-    const otherPool = VOCAB.filter(x=>x!==v);
-    const distractors = [];
-    const used = new Set([normalize(correctText)]);
-    for(let i=otherPool.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [otherPool[i],otherPool[j]]=[otherPool[j],otherPool[i]]; }
-    for(const x of otherPool){
-      const txt = primary(qSettings.dir==='nl-en' ? x.en : x.nl);
-      if(!used.has(normalize(txt))){ distractors.push(txt); used.add(normalize(txt)); }
-      if(distractors.length>=3) break;
-    }
-    const options = [correctText, ...distractors];
-    for(let i=options.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [options[i],options[j]]=[options[j],options[i]]; }
-
-    options.forEach(optText=>{
-      const b = document.createElement('button');
-      b.className='opt'; b.textContent = optText;
-      b.addEventListener('click',()=>{
-        if(quiz.answered) return;
-        quiz.answered = true;
-        const ok = normalize(optText)===normalize(correctText);
-        document.querySelectorAll('.opt').forEach(o=>{
-          o.disabled = true;
-          if(normalize(o.textContent)===normalize(correctText)) o.classList.add('correct');
-          else if(o===b && !ok) o.classList.add('wrong');
-        });
-        finishAnswer(ok, correctText);
-      });
-      optionsBox.appendChild(b);
+  if(curLevel==='moeilijk'){
+    FOUTZOEKEN.forEach(function(f){
+      var card=document.createElement('div');
+      card.className='flip';
+      card.innerHTML = '<div class="q">❌ <s>'+f.wrong+'</s></div>'
+        + '<div class="hint">zoek de fout</div>'
+        + '<div class="a">✔️ '+f.right+'<br><span style="font-weight:400;color:var(--muted);font-size:12.5px">'+f.why+'</span></div>'
+        + '<div class="tap">tik voor het antwoord</div>';
+      card.onclick=function(){ card.classList.toggle('open'); };
+      grid.appendChild(card);
     });
-  } else {
-    const input = document.getElementById('q-typeinput');
-    input.value=''; input.disabled=false; input.focus();
-    const check = ()=>{
-      if(quiz.answered) return;
-      quiz.answered = true;
-      input.disabled = true;
-      const correctText = primary(currentAnswer(v));
-      const ok = isCorrect(input.value, currentAnswer(v));
-      finishAnswer(ok, correctText);
+  }
+}
+renderOefen();
+
+/* ============ TOETS TAB ============ */
+var quizCount=15, quizLevel='alle';
+function buildChips(container, options, activeVal, onPick){
+  var el=document.getElementById(container); el.innerHTML='';
+  options.forEach(function(o){
+    var b=document.createElement('button');
+    b.className='chip'; b.textContent=o.label;
+    b.setAttribute('aria-pressed', o.val===activeVal);
+    b.onclick=function(){
+      Array.from(el.children).forEach(function(c){c.setAttribute('aria-pressed','false');});
+      b.setAttribute('aria-pressed','true');
+      onPick(o.val);
     };
-    document.getElementById('q-typecheck').onclick = check;
-    input.onkeydown = (e)=>{ if(e.key==='Enter') check(); };
-  }
+    el.appendChild(b);
+  });
 }
+buildChips('countrow', [{label:'10',val:10},{label:'15',val:15},{label:'20',val:20},{label:'Alles ('+EXERCISES.length+')',val:EXERCISES.length}], 15, function(v){quizCount=v;});
+buildChips('levelrow', [{label:'Alle niveaus',val:'alle'},{label:'🟢 Makkelijk',val:'makkelijk'},{label:'🟡 Gemiddeld',val:'gemiddeld'},{label:'🔴 Moeilijk',val:'moeilijk'}], 'alle', function(v){quizLevel=v;});
 
-function finishAnswer(ok, correctText){
-  if(ok) quiz.score++;
-  else quiz.wrong.push({ q: document.getElementById('q-word').textContent, correct: correctText });
-  const fb = document.getElementById('q-feedback');
-  fb.innerHTML = '<div class="feedback '+(ok?'ok':'bad')+'">'+
-    (ok ? '✓ Goed zo!' : '✗ Helaas — juiste antwoord: <span class="sub">'+correctText+'</span>') +
-    '</div>';
-  document.getElementById('q-score').textContent = '✓ '+quiz.score;
-  document.getElementById('q-nextwrap').hidden = false;
-}
+function normalize(s){ return (s||'').toLowerCase().trim().replace(/[.!?]+$/,'').replace(/\s+/g,' '); }
+function shuffle(arr){ arr=arr.slice(); for(var i=arr.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)); var t=arr[i]; arr[i]=arr[j]; arr[j]=t;} return arr; }
 
-document.getElementById('q-next').addEventListener('click',()=>{
-  quiz.i++;
-  if(quiz.i>=quiz.items.length){ showResults(); }
-  else { renderQuestion(); }
-});
-
-document.getElementById('q-stop').addEventListener('click',()=>{
-  document.getElementById('quiz-running').hidden = true;
-  document.getElementById('quiz-settings').hidden = false;
-});
-
-function showResults(){
-  document.getElementById('quiz-running').hidden = true;
-  document.getElementById('quiz-results').hidden = false;
-  document.getElementById('r-score').textContent = quiz.score+'/'+quiz.items.length;
-  const pct = Math.round(quiz.score/quiz.items.length*100);
-  document.getElementById('r-label').textContent = pct+'% goed beantwoord';
-  const rev = document.getElementById('r-review');
-  if(quiz.wrong.length===0){
-    rev.innerHTML = '<p style="text-align:center;color:var(--green);font-weight:700;">Alles goed! 🎉</p>';
-  } else {
-    rev.innerHTML = '<h3 style="margin-bottom:6px;">Nog even oefenen:</h3>' + quiz.wrong.map(w=>
-      '<div class="review-item"><span>'+w.q+'</span><span class="rc">'+w.correct+'</span></div>'
-    ).join('');
-  }
-}
-document.getElementById('r-retry').addEventListener('click',()=>{
-  quiz.items.sort(()=>Math.random()-0.5);
-  quiz.i=0; quiz.score=0; quiz.wrong=[];
-  document.getElementById('quiz-results').hidden = true;
-  document.getElementById('quiz-running').hidden = false;
+var quiz=null;
+function startQuiz(){
+  var pool = quizLevel==='alle' ? EXERCISES.slice() : EXERCISES.filter(function(x){return x.level===quizLevel;});
+  var n = Math.min(quizCount, pool.length);
+  quiz = {items: shuffle(pool).slice(0,n), i:0, score:0, wrong:[]};
+  document.getElementById('toets-setup').hidden=true;
+  document.getElementById('quiz-results').hidden=true;
+  document.getElementById('quiz-live').hidden=false;
   renderQuestion();
-});
-document.getElementById('r-newsettings').addEventListener('click',()=>{
-  document.getElementById('quiz-results').hidden = true;
-  document.getElementById('quiz-settings').hidden = false;
-});
+}
+function renderQuestion(){
+  var x=quiz.items[quiz.i];
+  var live=document.getElementById('quiz-live');
+  var levelBadge = x.level==='makkelijk'?'<span class="badge g">makkelijk</span>':x.level==='gemiddeld'?'<span class="badge o">gemiddeld</span>':'<span class="badge r">moeilijk</span>';
+  var sentence = fullSentence(x,false);
+  var inputs = x.blank2!==undefined
+    ? '<input id="qa1" class="mono" placeholder="deel 1" autocomplete="off"><input id="qa2" class="mono" placeholder="deel 2" autocomplete="off">'
+    : '<input id="qa1" class="mono" placeholder="jouw antwoord" autocomplete="off">';
+  live.innerHTML =
+    '<div class="qcard">'
+    + '<div class="qmeta"><span class="prog">Vraag '+(quiz.i+1)+' / '+quiz.items.length+levelBadge+'</span><span class="score">Score: '+quiz.score+'</span></div>'
+    + '<div class="qsent">'+sentence+'</div>'
+    + '<div class="qhint">werkwoord: <b>'+x.inf+'</b></div>'
+    + '<div class="answerrow">'+inputs+'<button class="checkbtn" onclick="checkAnswer()">Check</button></div>'
+    + '<div class="feedback" id="fb"></div>'
+    + '<button class="nextbtn" id="nextbtn" onclick="nextQuestion()">Volgende →</button>'
+    + '</div>';
+  var first=document.getElementById('qa1');
+  first.focus();
+  first.onkeydown=function(e){ if(e.key==='Enter') checkAnswer(); };
+  var second=document.getElementById('qa2');
+  if(second) second.onkeydown=function(e){ if(e.key==='Enter') checkAnswer(); };
+}
+function checkAnswer(){
+  var x=quiz.items[quiz.i];
+  var a1=normalize(document.getElementById('qa1').value);
+  var ok;
+  var given;
+  if(x.blank2!==undefined){
+    var a2=normalize(document.getElementById('qa2').value);
+    ok = a1===x.ans[0].toLowerCase() && a2===x.ans[1].toLowerCase();
+    given = a1+' … '+a2;
+  } else {
+    ok = a1===x.ans[0].toLowerCase();
+    given = a1;
+  }
+  var fb=document.getElementById('fb');
+  fb.className='feedback '+(ok?'ok':'bad');
+  var correctText = x.blank2!==undefined ? x.ans[0]+' … '+x.ans[1] : x.ans[0];
+  fb.textContent = ok ? '✔️ Goed zo!' : '✗ Niet helemaal — het juiste antwoord is: '+correctText;
+  if(ok) quiz.score++; else quiz.wrong.push({sentence: fullSentence(x,true), given: given||'(niets ingevuld)'});
+  document.getElementById('nextbtn').style.display='inline-block';
+  document.getElementById('nextbtn').focus();
+  document.querySelectorAll('.answerrow input').forEach(function(i){i.disabled=true;});
+  document.querySelector('.checkbtn').disabled=true;
+}
+function nextQuestion(){
+  quiz.i++;
+  if(quiz.i>=quiz.items.length){ showResults(); return; }
+  renderQuestion();
+}
+function showResults(){
+  document.getElementById('quiz-live').hidden=true;
+  var pct=Math.round(100*quiz.score/quiz.items.length);
+  var msg = pct>=90?'Fantastisch! 🌟' : pct>=70?'Goed gedaan! 💪' : pct>=50?'Al aardig — blijf oefenen! 📚' : 'Nog even oefenen, dat komt goed! ⛵';
+  var html = '<div class="results"><div style="font-weight:700;color:var(--muted)">Resultaat</div>'
+    + '<div class="big">'+quiz.score+' / '+quiz.items.length+'</div>'
+    + '<div style="font-size:15px">'+msg+' ('+pct+'%)</div>';
+  if(quiz.wrong.length){
+    html += '<div class="reviewlist">';
+    quiz.wrong.forEach(function(w){
+      html += '<div class="reviewitem">Jij typte: <i>'+ (w.given||'—') +'</i><br>Juiste zin: <b>'+w.sentence+'</b></div>';
+    });
+    html += '</div>';
+  }
+  html += '<button class="again" onclick="resetQuiz()">Nog een keer ⛵</button></div>';
+  var res=document.getElementById('quiz-results');
+  res.innerHTML=html; res.hidden=false;
+}
+function resetQuiz(){
+  document.getElementById('quiz-results').hidden=true;
+  document.getElementById('toets-setup').hidden=false;
+}
 </script>
+
 </body>
 </html>
